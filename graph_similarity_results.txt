@@ -1,0 +1,128 @@
+Page1 Title: Drugs & Medications A-Z url1: https://www.webmd.com/drugs/2/index
+Page2 Title: Drugs & Medications A-Z url2: https://www.webmd.com/drugs/2/alpha/a/
+cosine_similarity_of_list: 1.0
+cosine_similarity_of_single_string: 1.0
+shortest_path_kernel_sim: 1.0
+subgraph_matching__kernel_sim: 1.0
+graphs_jaccard_sim: 1.0
+veo_sim: 1.0
+eo_sim: 1.0
+laplacian_sim: 1.0
+edit_dst_sim: 1
+mcs_based_avg_lap_sim: 0.7944936765026307
+mcs_based_g1_g2_sim_rate: 0.041666666666666664
+
+######################################################################
+
+Page1 Title: Coronavirus disease (COVID-19) advice for the public: Mythbusters url1: https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters#:~:text=Most%20people%20who%20get%20COVID,facility%20by%20telephone%20first.
+Page2 Title: Coronavirus disease (COVID-19) advice for the public: Mythbusters url2: https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters#:~:text=The%20coronavirus%20disease%20(COVID,19%20hotline%20for%20assistance.
+cosine_similarity_of_list: 0.9134615384615384
+cosine_similarity_of_single_string: 1.0
+shortest_path_kernel_sim: 1.0
+subgraph_matching__kernel_sim: 1.0
+graphs_jaccard_sim: 1.0
+veo_sim: 1.0
+eo_sim: 1.0
+laplacian_sim: 1.0
+edit_dst_sim: 1
+mcs_based_avg_lap_sim: 0.6491553130894314
+mcs_based_g1_g2_sim_rate: 0.8979971827853357
+
+######################################################################
+
+Page1 Title: Covid vaccine update: Those that work - and the others on the way url1: https://www.bbc.co.uk/news/health-51665497
+Page2 Title: Covid vaccine update: Those that work - and the others on the way url2: https://www.bbc.com/news/health-51665497
+cosine_similarity_of_list: 1.0
+cosine_similarity_of_single_string: 0.30604102448856796
+shortest_path_kernel_sim: 0.05230193584425782
+subgraph_matching__kernel_sim: 0.029367031454973165
+graphs_jaccard_sim: 0.06591865357643759
+veo_sim: 0.06591865357643761
+eo_sim: 0.06027397260273973
+laplacian_sim: 0.6037251743881975
+edit_dst_sim: 0.4547752808988764
+mcs_based_avg_lap_sim: 0.0
+mcs_based_g1_g2_sim_rate: 0.0015105740181268882
+
+######################################################################
+
+Page1 Title:  url1: http://teacher.scholastic.com/paperairplane/airplane.htm
+Page2 Title: What Makes Paper Airplanes Fly? url2: https://www.scholastic.com/teachers/articles/teaching-content/what-makes-paper-airplanes-fly/
+cosine_similarity_of_list: 0.2292424180714402
+cosine_similarity_of_single_string: 0.18682755312374366
+shortest_path_kernel_sim: 0.0073632769410428645
+subgraph_matching__kernel_sim: 0.0024481678891307064
+graphs_jaccard_sim: 0.009472259810554804
+veo_sim: 0.009472259810554811
+eo_sim: 0.004815409309791332
+laplacian_sim: 0.6904314232462497
+edit_dst_sim: 0.4845309381237525
+mcs_based_avg_lap_sim: 0.8380069351591952
+mcs_based_g1_g2_sim_rate: 0.004310344827586207
+
+######################################################################
+
+Page1 Title: Anise url1: https://www.emedicinehealth.com/anise/vitamins-supplements.htm
+Page2 Title: ANISE url2: https://www.rxlist.com/anise/supplements.htm
+cosine_similarity_of_list: 0.9647087101353637
+cosine_similarity_of_single_string: 0.9903982749632025
+shortest_path_kernel_sim: 0.8709287128018189
+subgraph_matching__kernel_sim: 0.9565370775095662
+graphs_jaccard_sim: 0.8647845468053492
+veo_sim: 0.8647845468053491
+eo_sim: 0.8706099815157115
+laplacian_sim: 0.8886097038665779
+edit_dst_sim: 0.7968047928107839
+mcs_based_avg_lap_sim: 0.5319023611745629
+mcs_based_g1_g2_sim_rate: 0.7116827819382564
+
+######################################################################
+
+Page1 Title: Similarity Functions in Python url1: https://medium.com/@ashukumar27/similarity-functions-in-python-aa6dfe721035
+Page2 Title: FIVE MOST POPULAR SIMILARITY MEASURES IMPLEMENTATION IN PYTHON url2: https://dataaspirant.com/five-most-popular-similarity-measures-implementation-in-python/
+cosine_similarity_of_list: 0.6021213837596613
+cosine_similarity_of_single_string: 0.9154108176788268
+shortest_path_kernel_sim: 0.10789021374977927
+subgraph_matching__kernel_sim: 0.05231950607425288
+graphs_jaccard_sim: 0.17822117010483599
+veo_sim: 0.178221170104836
+eo_sim: 0.16741711011051988
+laplacian_sim: 0.6733067546798783
+edit_dst_sim: 0.44563231975932094
+mcs_based_avg_lap_sim: 0.0
+mcs_based_g1_g2_sim_rate: 0.3064478513299537
+
+######################################################################
+
+Page1 Title:  url1: https://www.geeksforgeeks.org/python-word-embedding-using-word2vec/
+Page2 Title: Word2vec from Scratch with NumPy url2: https://towardsdatascience.com/word2vec-from-scratch-with-numpy-8786ddd49e72
+cosine_similarity_of_list: 0.32199224814119315
+cosine_similarity_of_single_string: 0.7114653771279823
+shortest_path_kernel_sim: 0.012482695656479345
+subgraph_matching__kernel_sim: 0.0003214318446506949
+graphs_jaccard_sim: 0.02635277582572031
+veo_sim: 0.026352775825720286
+eo_sim: 0.012932832707551105
+laplacian_sim: 0.5207344841724585
+edit_dst_sim: 0.4373279139897732
+mcs_based_avg_lap_sim: 0.0
+mcs_based_g1_g2_sim_rate: 0.030522372949989877
+
+######################################################################
+
+Page1 Title: The Byzantine Empire url1: https://www.newadvent.org/cathen/03096a.htm
+Page2 Title: Byzantine Empire url2: https://www.livius.org/articles/misc/byzantine-empire/
+cosine_similarity_of_list: 0.7294797509216862
+cosine_similarity_of_single_string: 0.9699121795635992
+shortest_path_kernel_sim: 0.0177582588612601
+subgraph_matching__kernel_sim: 6.153128385693857e-05
+graphs_jaccard_sim: 0.019047918896794913
+veo_sim: 0.01904791889679488
+eo_sim: 0.007507930912936199
+laplacian_sim: 0.7996560097909567
+edit_dst_sim: 0.4691502224517825
+mcs_based_avg_lap_sim: 0.4128838598737543
+mcs_based_g1_g2_sim_rate: 0.018198315465263716
+
+######################################################################
+
