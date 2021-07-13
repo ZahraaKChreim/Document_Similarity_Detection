@@ -32,7 +32,7 @@ def get_webpage_content(url):
     #######################################################
 
     # print("Getting the Website/Driver Title ...")
-    # website_title = driver.title
+    website_title = (driver.title).lower()
     # print("Website/Driver Title: ", website_title)
     # print("-------------------------------------------------------------------------------------------------")
 
@@ -45,11 +45,11 @@ def get_webpage_content(url):
     ## page_title = first h1 element
     try:
         first_h1_element = driver.find_element_by_xpath("//h1")
-        page_title = first_h1_element.text
+        page_title = (first_h1_element.text).lower()
         #print("Page Title: ",page_title)
     except NoSuchElementException:
         page_title = ""
-        print("NoSuchElementException - no <h1> element - no Page Title")
+        #print("NoSuchElementException - no <h1> element - no Page Title")
         pass
     #print("Getting the Page's Title Done")
     #print("-------------------------------------------------------------------------------------------------")
@@ -59,13 +59,13 @@ def get_webpage_content(url):
     #######################################################
 
     # print("Getting the Page's SubTitles ...")
-    # h16_elements = driver.find_elements_by_xpath("//h1 | //h2 | //h3 | //h4 | //h5 | //h6")
+    # h16_elements = driver.find_elements_by_xpath("//h1/*[1] | //h2/*[1] | //h3/*[1] | //h4/*[1]")
     # h16_elements = h16_elements[1:]
     # list_of_subtitles = []
     # for subtitle in h16_elements:
     #     if subtitle.text:
-    #         list_of_subtitles.append(subtitle.text)
-    #         #print("Tag: ",subtitle.tag_name,"Text: ",subtitle.text)
+    #         list_of_subtitles.append((subtitle.text).lower())
+            #print("Tag: ",subtitle.tag_name,"Text: ",subtitle.text)
     # #print("list_of_subtitles length: ",len(list_of_subtitles))        
     # print("Getting the Page's SubTitles Done ...")
     # print("-------------------------------------------------------------------------------------------------")
@@ -85,7 +85,7 @@ def get_webpage_content(url):
             #print("Tag: ",paragraph.tag_name," - Text: ",paragraph.text)
             #print("#################################")
     #print("list_of_text_paragraphs length: ",len(list_of_text_paragraphs))
-    text_paragraphs_single_string = ' '.join(str(paragraph) for paragraph in list_of_text_paragraphs)
+    #text_paragraphs_single_string = ' '.join(str(paragraph) for paragraph in list_of_text_paragraphs)
     #print("Getting the Page's Non Empty Text Paragraphs Done ...")
     #print("-------------------------------------------------------------------------------------------------")
 
@@ -116,7 +116,7 @@ def get_webpage_content(url):
     ######### Getting some of the Page's Links ###########$
     #######################################################
 
-    # print("Getting some of the Page's Links ...")
+    #print("Getting some of the Page's Links ...")
     # list_of_links_a = driver.find_elements_by_xpath('//p/a | //ul/li/*/a | //ul/li/a | //ol/li/a')
     # list_of_urls = []
     # for link in list_of_links_a:
@@ -127,17 +127,18 @@ def get_webpage_content(url):
     #             #print("Parent: ",parent.tag_name, " - Tag: ",link.tag_name, " - Text: ",link.text, " - URL: ",link.get_attribute('href'))
     #             #print("#################################")
     #     except StaleElementReferenceException:
-    #         print("StaleElementReferenceException")
-    #         break
-    # print("list_of_urls length: ",len(list_of_urls))
-    # print("Getting some of the Page's Links Done ...")
-    # print("-------------------------------------------------------------------------------------------------")
+    #         #print("StaleElementReferenceException")
+    #         pass
+    #print("list_of_urls length: ",len(list_of_urls))
+    #print("Getting some of the Page's Links Done ...")
+    #print("-------------------------------------------------------------------------------------------------")
 
     driver.close()
 
     #return website_title, page_title, list_of_subtitles, list_of_text_paragraphs, list_of_urls
-    return page_title, list_of_text_paragraphs, text_paragraphs_single_string
-    #return list_of_text_paragraphs
+    #return page_title, list_of_text_paragraphs, text_paragraphs_single_string
+    return list_of_text_paragraphs
+    #return website_title, page_title, list_of_subtitles, list_of_urls
 
 #######################################################
 ########## Check Similarity of 2 websites  ############

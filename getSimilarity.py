@@ -89,7 +89,8 @@ def get_jaccard_of_two_sentences(sentence1,sentence2):
 ####### Average Jaccard of 2 lists of Sentences #######
 #######################################################
 
-def get_average_jaccard_of_two_lists_of_sentences(list_of_sentences1,list_of_sentences2):   
+def get_average_jaccard_of_two_lists_of_sentences(list_of_sentences1,list_of_sentences2):  
+    # Falseeee 
     sum_jaccards = 0
     for sentence1 in list_of_sentences1:
         set_sentence1 = set(sentence1.split(' '))
@@ -104,3 +105,14 @@ def get_average_jaccard_of_two_lists_of_sentences(list_of_sentences1,list_of_sen
         sum_jaccards = sum_jaccards + max_jaccard
     avg_jaccard = sum_jaccards / len(list_of_sentences1)
     return avg_jaccard
+
+def get_jaccard_of_two_lists_of_sentences(list_of_sentences1,list_of_sentences2):
+    # Trueee
+    intersection_cardinality = len(set.intersection(set(list_of_sentences1), set(list_of_sentences2)))
+    union_cardinality = len(set.union(set(list_of_sentences1), set(list_of_sentences2)))
+    if union_cardinality == 0:
+        return 0
+    jaccard = intersection_cardinality/float(union_cardinality)
+    return jaccard
+
+    
