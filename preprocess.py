@@ -12,7 +12,7 @@ from nltk.tokenize import word_tokenize, sent_tokenize
 ########### no ASCII characters, Punctucation #########
 #######################################################
 
-def get_syntactically_preprocessed_string(sentence):
+def get_syntactically_preprocessed_sentence(sentence):
 
     # Convert input sentence to lower case.
     sentence = sentence.lower().replace("/","").replace("\\","").replace("'s"," is").replace("'m"," am").replace("'ll"," will").replace("'re"," are").replace("n't"," not")
@@ -33,10 +33,11 @@ def get_syntactically_preprocessed_string(sentence):
 ###### Syntactic List of Sentences Preprocessing ######
 #######################################################
 
-def get_syntactically_preprocessed_list_of_strings(list_of_sentences):
-    for index,sentence in enumerate(list_of_sentences):
-        list_of_sentences[index] = get_syntactically_preprocessed_string(sentence)
-    return list_of_sentences
+def get_syntactically_preprocessed_paragraph(paragraph):
+    preprocessed_paragraph = ""
+    for sentence in sent_tokenize(paragraph):
+        preprocessed_paragraph += get_syntactically_preprocessed_sentence(sentence)
+    return preprocessed_paragraph
 
 #######################################################
 ############ Define POS tags for Lemmatizer ###########
@@ -58,7 +59,7 @@ def get_wordnet_pos(word):
 #### no ASCII characters, Punctucation, Stopwords #####
 #######################################################
 
-def get_semantically_preprocessed_string(sentence):
+def get_semantically_preprocessed_sentence(sentence):
 
     # Convert input sentence to lower case.
     sentence = sentence.lower().replace("/","").replace("\\","").replace("'s"," is").replace("'m"," am").replace("'ll"," will").replace("'re"," are").replace("n't"," not")
@@ -94,31 +95,31 @@ def get_semantically_preprocessed_string(sentence):
 ###### Semantic List of Sentences Preprocessing #######
 #######################################################
 
-def get_semantically_preprocessed_list_of_strings(list_of_sentences):
-    # input: list of paragraphs
-    # output: list of all preprocessed sentences, item_list = preprocessed sentence
-    new_list_of_sentences = []
-    for paragraph in list_of_sentences:
-        #sentences = sent_tokenize(paragraph)
-        sentences = paragraph.split('.')
-        for sentence in sentences:
-            new_list_of_sentences.append(get_semantically_preprocessed_string(sentence))
-    return new_list_of_sentences
+# def get_semantically_preprocessed_list_of_strings(list_of_sentences):
+#     # input: list of paragraphs
+#     # output: list of all preprocessed sentences, item_list = preprocessed sentence
+#     new_list_of_sentences = []
+#     for paragraph in list_of_sentences:
+#         #sentences = sent_tokenize(paragraph)
+#         sentences = paragraph.split('.')
+#         for sentence in sentences:
+#             new_list_of_sentences.append(get_semantically_preprocessed_sentence(sentence))
+#     return new_list_of_sentences
 
-def get_semantically_preprocessed_paragraph_return_as_single_paragraph(paragraph):
-    # input: one paragraph
-    # output: all preprocessed sentences in the paragraph, joined as one string
+def get_semantically_preprocessed_paragraph(paragraph):
     preprocessed_paragraph = ""
-    sentences = sent_tokenize(paragraph)
-    for sentence in sentences:
-        preprocessed_paragraph += get_semantically_preprocessed_string(sentence)
-    return preprocessed_paragraph
+    preprocessed_paragraph_list_of_sentences = []
+    for sentence in sent_tokenize(paragraph):
+        preprocessed_sentence = get_semantically_preprocessed_sentence(sentence)
+        preprocessed_paragraph += preprocessed_sentence
+        preprocessed_paragraph_list_of_sentences.append(preprocessed_sentence)
+    return preprocessed_paragraph, preprocessed_paragraph_list_of_sentences
 
-def get_semantically_preprocessed_paragraph_return_as_list(paragraph):
-    # input: one paragraph
-    # output: list of all preprocessed sentences in the paragraph, item_list = preprocessed sentence
-    new_list_of_sentences = []
-    sentences = sent_tokenize(paragraph)
-    for sentence in sentences:
-            new_list_of_sentences.append(get_semantically_preprocessed_string(sentence))
-    return new_list_of_sentences
+# def get_semantically_preprocessed_paragraph_return_as_list(paragraph):
+#     # input: one paragraph
+#     # output: list of all preprocessed sentences in the paragraph, item_list = preprocessed sentence
+#     new_list_of_sentences = []
+#     sentences = sent_tokenize(paragraph)
+#     for sentence in sentences:
+#             new_list_of_sentences.append(get_semantically_preprocessed_string(sentence))
+#     return new_list_of_sentences

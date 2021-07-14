@@ -10,11 +10,11 @@ import networkx as nx
 from getSimilarity import get_cosine_of_2_sentences
 
 sp_kernel = ShortestPath(normalize=True)
-wl_kernel = WeisfeilerLehman(base_graph_kernel=VertexHistogram, normalize=True)
-wloa_kernel = WeisfeilerLehmanOptimalAssignment(normalize=True)
-rwl_kernel = RandomWalkLabeled(normalize=True, method_type='fast')
-rw_kernel = RandomWalk(normalize=True, method_type='fast')
-sm_kernel = SubgraphMatching(normalize=True)
+# wl_kernel = WeisfeilerLehman(base_graph_kernel=VertexHistogram, normalize=True)
+# wloa_kernel = WeisfeilerLehmanOptimalAssignment(normalize=True)
+# rwl_kernel = RandomWalkLabeled(normalize=True, method_type='fast')
+# rw_kernel = RandomWalk(normalize=True, method_type='fast')
+# sm_kernel = SubgraphMatching(normalize=True)
 
 
 def main(g1, g2):
@@ -60,7 +60,7 @@ def main(g1, g2):
 
     #print("graph Kernel graph_from_networkx:")
     gks1 = grakel.graph_from_networkx([g1, g2], node_labels_tag='node_labels')
-    gks2 = grakel.graph_from_networkx([g1, g2], node_labels_tag='node_labels', edge_labels_tag='edge_labels')
+    #gks2 = grakel.graph_from_networkx([g1, g2], node_labels_tag='node_labels', edge_labels_tag='edge_labels')
     # gks3 = grakel.graph_from_networkx([g1, g2], node_labels_tag='node_labels')
     # gks4 = grakel.graph_from_networkx([g1, g2], node_labels_tag='node_labels')
     # gks5 = grakel.graph_from_networkx([g1, g2], node_labels_tag='node_labels')
@@ -75,12 +75,12 @@ def main(g1, g2):
         print('Shortest Path Kernel Exception: '+ str(e))
 
     ############ Subgraph Matching Kernel ############
-    try:
-        sm_array = sm_kernel.fit_transform(gks2)
-        sm_sim = sm_array[0][1]
-        #print("Subgraph Matching Kernel:",sm_sim)
-    except Exception as e:
-        print('Subgraph Matching Kernel Exception: '+ str(e))
+    # try:
+    #     sm_array = sm_kernel.fit_transform(gks2)
+    #     sm_sim = sm_array[0][1]
+    #     #print("Subgraph Matching Kernel:",sm_sim)
+    # except Exception as e:
+    #     print('Subgraph Matching Kernel Exception: '+ str(e))
 
     ############ Random Walk Kernel ############
     # try:
@@ -114,7 +114,8 @@ def main(g1, g2):
     # except Exception as e:
     #     print('Weisfeiler Lehman Optimal Assignment Kernel Exception: '+ str(e))
     
-    return sp_sim, sm_sim
+    #return sp_sim, sm_sim
+    return sp_sim
 
 # if __name__ ==  '__main__':
 

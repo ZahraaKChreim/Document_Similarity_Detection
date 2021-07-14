@@ -59,14 +59,14 @@ def get_webpage_content(url):
     #######################################################
 
     # print("Getting the Page's SubTitles ...")
-    # h16_elements = driver.find_elements_by_xpath("//h1/*[1] | //h2/*[1] | //h3/*[1] | //h4/*[1]")
-    # h16_elements = h16_elements[1:]
-    # list_of_subtitles = []
-    # for subtitle in h16_elements:
-    #     if subtitle.text:
-    #         list_of_subtitles.append((subtitle.text).lower())
-            #print("Tag: ",subtitle.tag_name,"Text: ",subtitle.text)
-    # #print("list_of_subtitles length: ",len(list_of_subtitles))        
+    h16_elements = driver.find_elements_by_xpath("//h1/*[1] | //h2/*[1] | //h3/*[1] | //h4/*[1]")
+    h16_elements = h16_elements[1:]
+    list_of_subtitles = []
+    for subtitle in h16_elements:
+        if subtitle.text:
+            list_of_subtitles.append((subtitle.text).lower())
+            print("Tag: ",subtitle.tag_name,"Text: ",subtitle.text)
+    #print("list_of_subtitles length: ",len(list_of_subtitles))        
     # print("Getting the Page's SubTitles Done ...")
     # print("-------------------------------------------------------------------------------------------------")
 
@@ -85,7 +85,7 @@ def get_webpage_content(url):
             #print("Tag: ",paragraph.tag_name," - Text: ",paragraph.text)
             #print("#################################")
     #print("list_of_text_paragraphs length: ",len(list_of_text_paragraphs))
-    #text_paragraphs_single_string = ' '.join(str(paragraph) for paragraph in list_of_text_paragraphs)
+    text_paragraphs_single_string = ' '.join(str(paragraph) for paragraph in list_of_text_paragraphs)
     #print("Getting the Page's Non Empty Text Paragraphs Done ...")
     #print("-------------------------------------------------------------------------------------------------")
 
@@ -93,7 +93,7 @@ def get_webpage_content(url):
     #######################################################
     ############ Getting all the Page's Links #############
     #######################################################
-
+    # DONT USE THIS
     # print("Getting all the Page's Links ...")
     # list_of_links_a = driver.find_elements_by_tag_name("a")
     # print("list_of_links_a length: ",len(list_of_links_a))
@@ -117,18 +117,18 @@ def get_webpage_content(url):
     #######################################################
 
     #print("Getting some of the Page's Links ...")
-    # list_of_links_a = driver.find_elements_by_xpath('//p/a | //ul/li/*/a | //ul/li/a | //ol/li/a')
-    # list_of_urls = []
-    # for link in list_of_links_a:
-    #     try:
-    #         if link.get_attribute('href') and link.get_attribute('href').startswith("http") and link.text:
-    #             #parent = link.find_element_by_xpath("..")
-    #             list_of_urls.append(link.get_attribute('href'))
-    #             #print("Parent: ",parent.tag_name, " - Tag: ",link.tag_name, " - Text: ",link.text, " - URL: ",link.get_attribute('href'))
-    #             #print("#################################")
-    #     except StaleElementReferenceException:
-    #         #print("StaleElementReferenceException")
-    #         pass
+    list_of_links_a = driver.find_elements_by_xpath('//p/a | //ul/li/*/a | //ul/li/a | //ol/li/a')
+    list_of_urls = []
+    for link in list_of_links_a:
+        try:
+            if link.get_attribute('href') and link.get_attribute('href').startswith("http") and link.text:
+                #parent = link.find_element_by_xpath("..")
+                list_of_urls.append(link.get_attribute('href'))
+                #print("Parent: ",parent.tag_name, " - Tag: ",link.tag_name, " - Text: ",link.text, " - URL: ",link.get_attribute('href'))
+                #print("#################################")
+        except StaleElementReferenceException:
+            #print("StaleElementReferenceException")
+            pass
     #print("list_of_urls length: ",len(list_of_urls))
     #print("Getting some of the Page's Links Done ...")
     #print("-------------------------------------------------------------------------------------------------")
@@ -137,8 +137,8 @@ def get_webpage_content(url):
 
     #return website_title, page_title, list_of_subtitles, list_of_text_paragraphs, list_of_urls
     #return page_title, list_of_text_paragraphs, text_paragraphs_single_string
-    return list_of_text_paragraphs
-    #return website_title, page_title, list_of_subtitles, list_of_urls
+    #return list_of_text_paragraphs
+    return website_title, page_title, list_of_subtitles, list_of_urls, text_paragraphs_single_string
 
 #######################################################
 ########## Check Similarity of 2 websites  ############

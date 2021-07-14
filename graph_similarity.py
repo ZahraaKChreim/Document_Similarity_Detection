@@ -2,78 +2,76 @@
 # https://github.com/peterewills/NetComp/blob/master/netcomp/distance/exact.py
 
 import networkx as nx
-from graph_of_words import GraphOfWords, getMCS_directed, graphs_similarity_value_based_on_edges_values
+from graph_of_words import GraphOfWords, getMCS_directed
 from document import get_webpage_content
 import preprocess
 import numpy as np
-import math
 import getSimilarity
 from graph_kernel import main as graph_kernel_main
 
 from selenium import webdriver
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
+
 
 #########################################################################
 
-def laplacian(g1, g2):
-    # Idea from: https://math.stackexchange.com/ question answer
-    # Note: graphs must have the same number of vertices , to be able to subtract matrices
+# def laplacian(g1, g2):
+#     # Idea from: https://math.stackexchange.com/ question answer
+#     # Note: graphs must have the same number of vertices , to be able to subtract matrices
 
-    # The idea is that the graph Laplacian is related to the diffusion in the graph
-    laplacian1 = nx.linalg.laplacianmatrix.directed_laplacian_matrix(g1, None, 'weight')
-    laplacian2 = nx.linalg.laplacianmatrix.directed_laplacian_matrix(g2, None, 'weight')
-    inv1 = np.linalg.pinv(laplacian1)
-    inv2 = np.linalg.pinv(laplacian2)
+#     # The idea is that the graph Laplacian is related to the diffusion in the graph
+#     laplacian1 = nx.linalg.laplacianmatrix.directed_laplacian_matrix(g1, None, 'weight')
+#     laplacian2 = nx.linalg.laplacianmatrix.directed_laplacian_matrix(g2, None, 'weight')
+#     inv1 = np.linalg.pinv(laplacian1)
+#     inv2 = np.linalg.pinv(laplacian2)
 
-    """The i'th column of the inverse matrix is the steady-state-result of putting a constant source of particles
-    at node i and letting them diffuse randomly through the graph, with the probability of transmission
-    between two nodes related to the edge weight between those nodes"""
+#     """The i'th column of the inverse matrix is the steady-state-result of putting a constant source of particles
+#     at node i and letting them diffuse randomly through the graph, with the probability of transmission
+#     between two nodes related to the edge weight between those nodes"""
  
-    # ||inv1-inv2||: measures the difference in the graphs in terms of 
-    # how they physically differ in a diffusion process
-    numerator = pow(np.linalg.norm(inv1-inv2),2)
+#     # ||inv1-inv2||: measures the difference in the graphs in terms of 
+#     # how they physically differ in a diffusion process
+#     numerator = pow(np.linalg.norm(inv1-inv2),2)
 
-    # Dividing by ||inv1||*||inv2|| is done to make the similarity measure scale-invariant,
-    denominator = np.linalg.norm(inv1) * np.linalg.norm(inv2)
+#     # Dividing by ||inv1||*||inv2|| is done to make the similarity measure scale-invariant,
+#     denominator = np.linalg.norm(inv1) * np.linalg.norm(inv2)
 
-    # The exponential exp(−X) is taken to map the values between 0 and 1
-    laplacian_sim = math.exp(-numerator/denominator)
+#     # The exponential exp(−X) is taken to map the values between 0 and 1
+#     laplacian_sim = math.exp(-numerator/denominator)
 
-    return laplacian_sim
+#     return laplacian_sim
 
 #########################################################################
 
-def edit_distance(g1, g2):
-    # Code from: https://github.com/peterewills/NetComp/blob/master/netcomp/distance/exact.py
-    """
-    The edit distance between graphs, defined as the number of changes one
-    needs to make to put the edge lists in correspondence.
-    """
-    # Note: graphs must have the same number of vertices , to be able to subtract matrices
+# def edit_distance(g1, g2):
+#     # Code from: https://github.com/peterewills/NetComp/blob/master/netcomp/distance/exact.py
+#     """
+#     The edit distance between graphs, defined as the number of changes one
+#     needs to make to put the edge lists in correspondence.
+#     """
+#     # Note: graphs must have the same number of vertices , to be able to subtract matrices
 
-    # Adjacency matrices of graphs to be compared: For directed graphs, entry i,j corresponds to an edge from i to j
-    adj1 = nx.linalg.graphmatrix.adjacency_matrix(g1)
-    adj2 = nx.linalg.graphmatrix.adjacency_matrix(g2)
+#     # Adjacency matrices of graphs to be compared: For directed graphs, entry i,j corresponds to an edge from i to j
+#     adj1 = nx.linalg.graphmatrix.adjacency_matrix(g1)
+#     adj2 = nx.linalg.graphmatrix.adjacency_matrix(g2)
 
-    diff = np.abs((adj1-adj2)).sum()
-    edit_dst =  diff / 2
+#     diff = np.abs((adj1-adj2)).sum()
+#     edit_dst =  diff / 2
 
-    if edit_dst == 0:
-        return 0, 1
+#     if edit_dst == 0:
+#         return 0, 1
 
-    # Getting a similarity value from edit distance value
-    denominator = np.abs((adj1 + adj2)).sum() / 2
+#     # Getting a similarity value from edit distance value
+#     denominator = np.abs((adj1 + adj2)).sum() / 2
 
-    # Difference score = difference of matrices / average sum of matrices
-    diff_score = diff / denominator
+#     # Difference score = difference of matrices / average sum of matrices
+#     diff_score = diff / denominator
 
-    # Similarity Value
-    sim_from_edit_dst = np.abs(1 - diff_score) / diff_score
-    if sim_from_edit_dst > 1:
-        sim_from_edit_dst = 1 / sim_from_edit_dst
+#     # Similarity Value
+#     sim_from_edit_dst = np.abs(1 - diff_score) / diff_score
+#     if sim_from_edit_dst > 1:
+#         sim_from_edit_dst = 1 / sim_from_edit_dst
 
-    return edit_dst, sim_from_edit_dst
+#     return edit_dst, sim_from_edit_dst
 
 #########################################################################
 
@@ -86,7 +84,7 @@ def graphs_jaccard_similarity(g1, g2):
 
     len_nodes_union = len(V1|V2)
     len_edges_union = len(E1|E2)
-    len_edges_intersection = get_len_edges_intersection(g1, g2)
+    len_edges_intersection = len(E1&E2)
     len_nodes_intersection = len(V1&V2)
 
     # Jaccard Similarity = (sum of intersections) / (sum of unions)
@@ -116,38 +114,38 @@ def vertex_edge_overlap(g1,g2):
 
 #########################################################################
 
-def get_len_edges_intersection(g1, g2):
-    intersection_len = 0
-    if g1.number_of_nodes() > g2.number_of_nodes():
-        for n1,n2 in g1.edges():
-            if g2.has_edge(n1, n2):
-                intersection_len += 1
-    else:
-        for n1,n2 in g2.edges():
-            if g1.has_edge(n1, n2):
-                intersection_len += 1
+# def get_len_edges_intersection(g1, g2):
+#     intersection_len = 0
+#     if g1.number_of_nodes() > g2.number_of_nodes():
+#         for n1,n2 in g1.edges():
+#             if g2.has_edge(n1, n2):
+#                 intersection_len += 1
+#     else:
+#         for n1,n2 in g2.edges():
+#             if g1.has_edge(n1, n2):
+#                 intersection_len += 1
 
-    return intersection_len
+#     return intersection_len
 
-def edge_overlap(g1,g2):
-    # graphs not necessary same number of vertices !! 
-    E1 = len(g1.edges())
-    E2 = len(g2.edges())
+# def edge_overlap(g1,g2):
+#     # graphs not necessary same number of vertices !! 
+#     E1 = len(g1.edges())
+#     E2 = len(g2.edges())
 
-    E_intersection_len = get_len_edges_intersection(g1, g2)
+#     E_intersection_len = get_len_edges_intersection(g1, g2)
 
-    edge_overlap_value = E_intersection_len / (E1+E2)
-    if edge_overlap_value == 0:
-        edge_overlap_sim = 0
-    else:
-        edge_overlap_sim = np.abs(1-edge_overlap_value)/edge_overlap_value
-        if edge_overlap_sim > 1:
-            edge_overlap_sim = 1 / edge_overlap_sim
+#     edge_overlap_value = E_intersection_len / (E1+E2)
+#     if edge_overlap_value == 0:
+#         edge_overlap_sim = 0
+#     else:
+#         edge_overlap_sim = np.abs(1-edge_overlap_value)/edge_overlap_value
+#         if edge_overlap_sim > 1:
+#             edge_overlap_sim = 1 / edge_overlap_sim
 
-    return edge_overlap_value, edge_overlap_sim
+#     return edge_overlap_value, edge_overlap_sim
 
 #########################################################################
-
+### FALSEEEE FUNCTION
 def MCS_based_similarity(graph1, graph2):
     # Note: graphs must have the same number of vertices , to be able to subtract matrices
     # graph1 & graph2 :  GraphOfWords
@@ -178,21 +176,24 @@ def MCS_based_similarity(graph1, graph2):
 
     # 2) Compare the maximum common subgraph to both graph1 & graph2 in terms of laplacian similarities
     # 2.1) Make the graphs have the same set of vertices
-    for node in g1.nodes():
-        if not node in mcs1.nodes():
-            mcs1.add_node(node)
-    for node in g2.nodes():
-        if not node in mcs2.nodes():
-            mcs2.add_node(node)
+    # for node in g1.nodes():
+    #     if not node in mcs1.nodes():
+    #         mcs1.add_node(node)
+    # for node in g2.nodes():
+    #     if not node in mcs2.nodes():
+    #         mcs2.add_node(node)
 
-    # 2.2) Compute laplacian similarities
-    lap_sim_g1_mcs = laplacian(mcs1, g1)
-    lap_sim_g2_mcs = laplacian(mcs2, g2)
-    # Average Laplacian Similarity
-    avg_lap_sim = (lap_sim_g1_mcs + lap_sim_g2_mcs)/2
+    # # 2.2) Compute laplacian similarities
+    # lap_sim_g1_mcs = laplacian(mcs1, g1)
+    # lap_sim_g2_mcs = laplacian(mcs2, g2)
+    # # Average Laplacian Similarity
+    # avg_lap_sim = (lap_sim_g1_mcs + lap_sim_g2_mcs)/2
 
-    return avg_lap_sim, g1_g2_sim_rate
-    
+    #return avg_lap_sim, g1_g2_sim_rate
+    return g1_g2_sim_rate
+
+ 
+
 #########################################################################
 
 def get_similarities(driver, url1, url2):
@@ -204,44 +205,48 @@ def get_similarities(driver, url1, url2):
     results['url2'] = url2
 
     # get websites content
-    page_title1, list_of_text_paragraphs1, text_paragraphs_single_string1 = get_webpage_content(driver, url1)
-    page_title2, list_of_text_paragraphs2, text_paragraphs_single_string2 = get_webpage_content(driver, url2) 
+    website_title1, page_title1, list_of_subtitles1, list_of_urls1, body_text1 = get_webpage_content(driver, url1)
+    website_title2, page_title2, list_of_subtitles2, list_of_urls2, body_text2 = get_webpage_content(driver, url2) 
 
-    results['page_title1'] = page_title1
-    results['page_title2'] = page_title2
-  
-    # Preprocessing for syntactic similarity: list of sentences + single string
-    list_of_syntactically_preprocessed_sentences_from_list_of_text_paragraphs1 = preprocess.get_syntactically_preprocessed_list_of_strings(list_of_text_paragraphs1)
-    list_of_syntactically_preprocessed_sentences_from_list_of_text_paragraphs2 = preprocess.get_syntactically_preprocessed_list_of_strings(list_of_text_paragraphs2)
+    # get website titles, page titles, subtitles, and URLs similarity
+    website_titles_sim = getSimilarity.get_cosine_of_2_sentences(website_title1, website_title2)
+    page_titles_sim = getSimilarity.get_cosine_of_2_sentences(page_title1, page_title2)
+    subtitles_sim = getSimilarity.get_jaccard_of_two_lists_of_sentences(list_of_subtitles1, list_of_subtitles2)
+    urls_sim = getSimilarity.get_jaccard_of_two_lists_of_sentences(list_of_urls1, list_of_urls2)
 
-    single_string_of_syntactically_preprocessed_sentences_from_text_paragraphs_single_string1 = preprocess.get_syntactically_preprocessed_string(text_paragraphs_single_string1)
-    single_string_of_syntactically_preprocessed_sentences_from_text_paragraphs_single_string2 = preprocess.get_syntactically_preprocessed_string(text_paragraphs_single_string2)
+    results['website_titles_sim'] = website_titles_sim
+    results['page_titles_sim'] = page_titles_sim
+    results['subtitles_sim'] = subtitles_sim
+    results['urls_sim'] = urls_sim
 
-    # Get cosine similarities
-    cosine_similarity_of_list = getSimilarity.get_average_cosine_of_2_lists_of_sentences(list_of_syntactically_preprocessed_sentences_from_list_of_text_paragraphs1, list_of_syntactically_preprocessed_sentences_from_list_of_text_paragraphs2)
-    cosine_similarity_of_single_string = getSimilarity.get_cosine_of_2_sentences(single_string_of_syntactically_preprocessed_sentences_from_text_paragraphs_single_string1, single_string_of_syntactically_preprocessed_sentences_from_text_paragraphs_single_string2)
+    # Syntactic & Semantic Preprocessing
+    syntactically_preprocessed_body_text1 = preprocess.get_syntactically_preprocessed_paragraph(body_text1)
+    syntactically_preprocessed_body_text2 = preprocess.get_syntactically_preprocessed_paragraph(body_text2)
 
-    results['cosine_similarity_of_list'] = cosine_similarity_of_list
-    results['cosine_similarity_of_single_string'] = cosine_similarity_of_single_string
+    semantically_preprocessed_paragraph1, semantically_preprocessed_paragraph_as_list_of_sentences1 = preprocess.get_semantically_preprocessed_paragraph(body_text1)
+    semantically_preprocessed_paragraph2, semantically_preprocessed_paragraph_as_list_of_sentences2 = preprocess.get_semantically_preprocessed_paragraph(body_text2)
 
-    # Preprocessing for graph representation (semantic similarity): list of sentences
-    list_of_semantically_preprocessed_sentences_from_list_of_text_paragraphs1 = preprocess.get_semantically_preprocessed_list_of_strings(list_of_text_paragraphs1)
-    list_of_semantically_preprocessed_sentences_from_list_of_text_paragraphs2 = preprocess.get_semantically_preprocessed_list_of_strings(list_of_text_paragraphs2)
-    
+    # Get Cosine similarities for both: Syntactic & Semantic Preprocessing
+    cosine_similarity_syntactic_preprocessing = getSimilarity.get_cosine_of_2_sentences(syntactically_preprocessed_body_text1, syntactically_preprocessed_body_text2)
+    cosine_similarity_semantic_preprocessing = getSimilarity.get_cosine_of_2_sentences(semantically_preprocessed_paragraph1, semantically_preprocessed_paragraph2)
+
+    results['cosine_similarity_syntactic_preprocessing'] = cosine_similarity_syntactic_preprocessing
+    results['cosine_similarity_semantic_preprocessing'] = cosine_similarity_semantic_preprocessing
+
     # Graph Representation
     graph1 = GraphOfWords(window_size=4)
-    graph1.build_graph(list_of_semantically_preprocessed_sentences_from_list_of_text_paragraphs1, workers=4)
+    graph1.build_graph(semantically_preprocessed_paragraph_as_list_of_sentences1, workers=4)
     g1 = graph1.graph
 
     graph2 = GraphOfWords(window_size=4)
-    graph2.build_graph(list_of_semantically_preprocessed_sentences_from_list_of_text_paragraphs2, workers=4)
+    graph2.build_graph(semantically_preprocessed_paragraph_as_list_of_sentences2, workers=4)
     g2 = graph2.graph  
 
-    sp_sim, sm_sim = graph_kernel_main(g1, g2)
+    # Graph Kernels for similarity
+    sp_sim = graph_kernel_main(g1, g2) # Shortest Path Kernel
     results['sp_sim'] = sp_sim
-    results['sm_sim'] = sm_sim
 
-    # similarties that do not require graphs with same set of vertices
+    # Other Graph Similarity Metrics
     graphs_jaccard_sim = graphs_jaccard_similarity(g1, g2)
     results['graphs_jaccard_sim']=graphs_jaccard_sim
 
@@ -249,38 +254,39 @@ def get_similarities(driver, url1, url2):
     results['veo_val']=veo_val
     results['veo_sim']=veo_sim
 
-    eo_val, eo_sim = edge_overlap(g1, g2)
-    results['eo_val']=eo_val
-    results['eo_sim']=eo_sim
+    # eo_val, eo_sim = edge_overlap(g1, g2)
+    # results['eo_val']=eo_val
+    # results['eo_sim']=eo_sim
 
     # graphs_edges_value_based_similarity = graphs_similarity_value_based_on_edges_values(edges1, edges2)
     # results['graphs_edges_value_based_similarity']=graphs_edges_value_based_similarity
 
     # similarties that do not require graphs with same set of vertices
     # first, make 2 graphs same vertices:
-    all_nodes = nx.compose(g1, g2).nodes()
-    for node in all_nodes:
-        if not node in g1.nodes():
-            g1.add_node(node)
-        if not node in g2.nodes():
-            g2.add_node(node)
+    # all_nodes = nx.compose(g1, g2).nodes()
+    # for node in all_nodes:
+    #     if not node in g1.nodes():
+    #         g1.add_node(node)
+    #     if not node in g2.nodes():
+    #         g2.add_node(node)
 
-    laplacian_sim = laplacian(g1, g2)
-    results['laplacian_sim']=laplacian_sim
+    # laplacian_sim = laplacian(g1, g2)
+    # results['laplacian_sim']=laplacian_sim
 
-    edit_dst_val, edit_dst_sim = edit_distance(g1, g2)
-    results['edit_dst_val']=edit_dst_val
-    results['edit_dst_sim']=edit_dst_sim
+    # edit_dst_val, edit_dst_sim = edit_distance(g1, g2)
+    # results['edit_dst_val']=edit_dst_val
+    # results['edit_dst_sim']=edit_dst_sim
 
-    mcs_based_avg_lap_sim, mcs_based_g1_g2_sim_rate = MCS_based_similarity(graph1, graph2)
-    results['mcs_based_avg_lap_sim']=mcs_based_avg_lap_sim
+    ## False Function
+    #mcs_based_avg_lap_sim, mcs_based_g1_g2_sim_rate = MCS_based_similarity(graph1, graph2)
+    mcs_based_g1_g2_sim_rate = MCS_based_similarity(graph1, graph2)
+    # False
+    #results['mcs_based_avg_lap_sim']=mcs_based_avg_lap_sim
     results['mcs_based_g1_g2_sim_rate']=mcs_based_g1_g2_sim_rate
 
     return results
 
 def main():
-
-    
 
     urls = (["https://www.webmd.com/drugs/2/index","https://www.webmd.com/drugs/2/alpha/a/"],
             ["https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters#:~:text=Most%20people%20who%20get%20COVID,facility%20by%20telephone%20first.","https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters#:~:text=The%20coronavirus%20disease%20(COVID,19%20hotline%20for%20assistance."],
@@ -326,20 +332,19 @@ def main():
 
         results_file.write("Page1 Title: " + results['page_title1'] + " url1: "+ results['url1'] + "\n")
         results_file.write("Page2 Title: " + results['page_title2'] + " url2: "+ results['url2'] + "\n")
-        results_file.write("cosine_similarity_of_list: " + str(results['cosine_similarity_of_list']) + "\n")
-        results_file.write("cosine_similarity_of_single_string: "+ str(results['cosine_similarity_of_single_string']) + "\n")
+
+        results_file.write("website_titles_sim: "+ results['website_titles_sim'] + "\n")
+        results_file.write("page_titles_sim: "+ results['page_titles_sim'] + "\n")
+        results_file.write("subtitles_sim: "+ results['subtitles_sim'] + "\n")
+        results_file.write("urls_sim: "+ results['urls_sim'] + "\n")
+
+        results_file.write("cosine_similarity_syntactic_preprocessing: " + str(results['cosine_similarity_syntactic_preprocessing']) + "\n")
+        results_file.write("cosine_similarity_semantic_preprocessing: "+ str(results['cosine_similarity_semantic_preprocessing']) + "\n")
+        
         results_file.write("shortest_path_kernel_sim: "+ str(results['sp_sim']) + "\n")
-        results_file.write("subgraph_matching__kernel_sim: "+ str(results['sm_sim']) + "\n")
         results_file.write("graphs_jaccard_sim: "+ str(results['graphs_jaccard_sim']) + "\n")
-        #results_file.write("veo_val: "+ str(results['veo_val']) + "\n")
         results_file.write("veo_sim: "+ str(results['veo_sim']) + "\n")
-        #results_file.write("eo_val: "+ str(results['eo_val']) + "\n")
-        results_file.write("eo_sim: "+ str(results['eo_sim']) + "\n")
-        #results_file.write("graphs_edges_value_based_similarity: "+ str(results['graphs_edges_value_based_similarity']) + "\n")
-        results_file.write("laplacian_sim: "+ str(results['laplacian_sim']) + "\n")
-        #results_file.write("edit_dst_val: "+ str(results['edit_dst_val']) + "\n")
-        results_file.write("edit_dst_sim: "+ str(results['edit_dst_sim']) + "\n")
-        results_file.write("mcs_based_avg_lap_sim: "+ str(results['mcs_based_avg_lap_sim']) + "\n")
+        
         results_file.write("mcs_based_g1_g2_sim_rate: "+ str(results['mcs_based_g1_g2_sim_rate']) + "\n")
         results_file.write("\n######################################################################\n\n")
 
@@ -352,3 +357,6 @@ def main():
 
 if __name__ ==  '__main__':
     main()
+
+
+    
