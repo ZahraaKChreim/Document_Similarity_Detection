@@ -208,16 +208,16 @@ def get_similarities(driver, url1, url2):
     website_title1, page_title1, list_of_subtitles1, list_of_urls1, body_text1 = get_webpage_content(driver, url1)
     website_title2, page_title2, list_of_subtitles2, list_of_urls2, body_text2 = get_webpage_content(driver, url2) 
 
-    # get website titles, page titles, subtitles, and URLs similarity
-    # website_titles_sim = getSimilarity.get_cosine_of_2_sentences(website_title1, website_title2)
-    # page_titles_sim = getSimilarity.get_cosine_of_2_sentences(page_title1, page_title2)
-    # subtitles_sim = getSimilarity.get_jaccard_of_two_lists_of_sentences(list_of_subtitles1, list_of_subtitles2)
-    # urls_sim = getSimilarity.get_jaccard_of_two_lists_of_sentences(list_of_urls1, list_of_urls2)
+    #get website titles, page titles, subtitles, and URLs similarity
+    website_titles_sim = getSimilarity.get_cosine_of_2_sentences(website_title1, website_title2)
+    page_titles_sim = getSimilarity.get_cosine_of_2_sentences(page_title1, page_title2)
+    subtitles_sim = getSimilarity.get_jaccard_of_two_lists_of_sentences(list_of_subtitles1, list_of_subtitles2)
+    urls_sim = getSimilarity.get_jaccard_of_two_lists_of_sentences(list_of_urls1, list_of_urls2)
 
-    # results['website_titles_sim'] = website_titles_sim
-    # results['page_titles_sim'] = page_titles_sim
-    # results['subtitles_sim'] = subtitles_sim
-    # results['urls_sim'] = urls_sim
+    results['website_titles_sim'] = website_titles_sim
+    results['page_titles_sim'] = page_titles_sim
+    results['subtitles_sim'] = subtitles_sim
+    results['urls_sim'] = urls_sim
 
     # Syntactic & Semantic Preprocessing
     syntactically_preprocessed_body_text1 = preprocess.get_syntactically_preprocessed_paragraph(body_text1)
