@@ -209,15 +209,15 @@ def get_similarities(driver, url1, url2):
     website_title2, page_title2, list_of_subtitles2, list_of_urls2, body_text2 = get_webpage_content(driver, url2) 
 
     # get website titles, page titles, subtitles, and URLs similarity
-    website_titles_sim = getSimilarity.get_cosine_of_2_sentences(website_title1, website_title2)
-    page_titles_sim = getSimilarity.get_cosine_of_2_sentences(page_title1, page_title2)
-    subtitles_sim = getSimilarity.get_jaccard_of_two_lists_of_sentences(list_of_subtitles1, list_of_subtitles2)
-    urls_sim = getSimilarity.get_jaccard_of_two_lists_of_sentences(list_of_urls1, list_of_urls2)
+    # website_titles_sim = getSimilarity.get_cosine_of_2_sentences(website_title1, website_title2)
+    # page_titles_sim = getSimilarity.get_cosine_of_2_sentences(page_title1, page_title2)
+    # subtitles_sim = getSimilarity.get_jaccard_of_two_lists_of_sentences(list_of_subtitles1, list_of_subtitles2)
+    # urls_sim = getSimilarity.get_jaccard_of_two_lists_of_sentences(list_of_urls1, list_of_urls2)
 
-    results['website_titles_sim'] = website_titles_sim
-    results['page_titles_sim'] = page_titles_sim
-    results['subtitles_sim'] = subtitles_sim
-    results['urls_sim'] = urls_sim
+    # results['website_titles_sim'] = website_titles_sim
+    # results['page_titles_sim'] = page_titles_sim
+    # results['subtitles_sim'] = subtitles_sim
+    # results['urls_sim'] = urls_sim
 
     # Syntactic & Semantic Preprocessing
     syntactically_preprocessed_body_text1 = preprocess.get_syntactically_preprocessed_paragraph(body_text1)
@@ -228,7 +228,7 @@ def get_similarities(driver, url1, url2):
 
     # Get Cosine similarities for both: Syntactic & Semantic Preprocessing
     cosine_similarity_syntactic_preprocessing = getSimilarity.get_cosine_of_2_sentences(syntactically_preprocessed_body_text1, syntactically_preprocessed_body_text2)
-    cosine_similarity_semantic_preprocessing = getSimilarity.get_cosine_of_2_sentences(semantically_preprocessed_paragraph1, semantically_preprocessed_paragraph2)
+    cosine_similarity_semantic_preprocessing  = getSimilarity.get_cosine_of_2_sentences(semantically_preprocessed_paragraph1, semantically_preprocessed_paragraph2)
 
     results['cosine_similarity_syntactic_preprocessing'] = cosine_similarity_syntactic_preprocessing
     results['cosine_similarity_semantic_preprocessing'] = cosine_similarity_semantic_preprocessing
@@ -288,33 +288,30 @@ def get_similarities(driver, url1, url2):
 
 def main():
 
-    # urls = (["https://www.webmd.com/drugs/2/index","https://www.webmd.com/drugs/2/alpha/a/"],
-    #         ["https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters#:~:text=Most%20people%20who%20get%20COVID,facility%20by%20telephone%20first.","https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters#:~:text=The%20coronavirus%20disease%20(COVID,19%20hotline%20for%20assistance."],
-    #         ["https://www.bbc.co.uk/news/health-51665497","https://www.bbc.com/news/health-51665497"],
-    #         ["http://teacher.scholastic.com/paperairplane/airplane.htm","https://www.scholastic.com/teachers/articles/teaching-content/what-makes-paper-airplanes-fly/"],
-    #         ["https://www.emedicinehealth.com/anise/vitamins-supplements.htm","https://www.rxlist.com/anise/supplements.htm"],
-    #         ["https://medium.com/@ashukumar27/similarity-functions-in-python-aa6dfe721035","https://dataaspirant.com/five-most-popular-similarity-measures-implementation-in-python/"],
-    #         ["https://www.geeksforgeeks.org/python-word-embedding-using-word2vec/","https://towardsdatascience.com/word2vec-from-scratch-with-numpy-8786ddd49e72"],
-    #         ["https://www.newadvent.org/cathen/03096a.htm", "https://www.livius.org/articles/misc/byzantine-empire/"],
-    #         ["https://www.encyclopedia.com/history/modern-europe/turkish-and-ottoman-history/ottoman-empire", "https://www.jstor.org/stable/j.ctt1b67wfz"],
-    #         ["https://www.amacad.org/publication/ottoman-experience", "https://www.encyclopedia.com/history/modern-europe/turkish-and-ottoman-history/ottoman-empire"],
-            # ["https://www.socialwatch.org/node/18372", "https://blogs.lse.ac.uk/mec/2019/10/24/lebanons-revolution-makes-its-own-rules/"],
-            # ["https://www.ancient.eu/Byzantine_Empire/", "https://www.thebritishacademy.ac.uk/blog/what-is-byzantine-studies/"],
-     #["https://www.ushistory.org/civ/3e.asp", "https://www.goaheadtours.com/travel-blog/articles/pyramids-of-giza-facts"],
-            
-    # urls = (["https://www.cairn.info/revue-napoleonica-la-revue-2013-1-page-88.htm", "https://www.euronews.com/2021/02/13/french-and-russian-soldiers-who-fought-in-napoleon-s-18-12-campaign-are-finally-buried"],
-    #         ["https://www.thebalancesmb.com/simple-ways-make-money-online-2531879", "https://www.lifehack.org/articles/money/5-real-ways-actually-make-money-online.html"],
-    #         ["https://opensource.com/resources/python", "https://www.infoworld.com/article/3204016/what-is-python-powerful-intuitive-programming.html"],
-    #         ["https://www.metmuseum.org/toah/hd/grot/hd_grot.htm", "https://www.amacad.org/publication/ottoman-experience"],
-    #         ["https://courses.lumenlearning.com/waymaker-psychology/chapter/reading-parts-of-the-brain/", "https://www.news-medical.net/health/The-Anatomy-of-the-Human-Brain.aspx"],
-    #         ["https://www.oracle.com/internet-of-things/what-is-iot/","https://www.oracle.com/in/internet-of-things/what-is-iot/"],
-    #         ["https://www.thoughtco.com/anatomy-of-the-stomach-373482", "https://www.nursingtimes.net/clinical-archive/gastroenterology/gastrointestinal-tract-2-the-structure-and-function-of-the-stomach-24-06-2019/"],
-    #         ["https://courses.lumenlearning.com/boundless-worldhistory/chapter/the-ottoman-empire/", "https://www.laits.utexas.edu/cairo/history/ottoman/ottoman.html"],
-    #         ["https://en.wikivoyage.org/wiki/Istanbul","https://wikitravel.org/en/Istanbul"],
-    #         ["https://en.wikivoyage.org/wiki/Turkey","https://wikitravel.org/en/Turkey"],
-
-
-    urls = (["https://courses.lumenlearning.com/atd-tcc-worldciv2/chapter/ottoman-empire/","https://en.wikipedia.org/wiki/History_of_the_Ottoman_Empire"],
+    urls = (["https://www.webmd.com/drugs/2/index","https://www.webmd.com/drugs/2/alpha/a/"],
+            ["https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters#:~:text=Most%20people%20who%20get%20COVID,facility%20by%20telephone%20first.","https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters#:~:text=The%20coronavirus%20disease%20(COVID,19%20hotline%20for%20assistance."],
+            ["https://www.bbc.co.uk/news/health-51665497","https://www.bbc.com/news/health-51665497"],
+            ["http://teacher.scholastic.com/paperairplane/airplane.htm","https://www.scholastic.com/teachers/articles/teaching-content/what-makes-paper-airplanes-fly/"],
+            ["https://www.emedicinehealth.com/anise/vitamins-supplements.htm","https://www.rxlist.com/anise/supplements.htm"],
+            ["https://medium.com/@ashukumar27/similarity-functions-in-python-aa6dfe721035","https://dataaspirant.com/five-most-popular-similarity-measures-implementation-in-python/"],
+            ["https://www.geeksforgeeks.org/python-word-embedding-using-word2vec/","https://towardsdatascience.com/word2vec-from-scratch-with-numpy-8786ddd49e72"],
+            ["https://www.newadvent.org/cathen/03096a.htm", "https://www.livius.org/articles/misc/byzantine-empire/"],
+            ["https://www.encyclopedia.com/history/modern-europe/turkish-and-ottoman-history/ottoman-empire", "https://www.jstor.org/stable/j.ctt1b67wfz"],
+            ["https://www.amacad.org/publication/ottoman-experience", "https://www.encyclopedia.com/history/modern-europe/turkish-and-ottoman-history/ottoman-empire"],
+            ["https://www.socialwatch.org/node/18372", "https://blogs.lse.ac.uk/mec/2019/10/24/lebanons-revolution-makes-its-own-rules/"],
+            ["https://www.ancient.eu/Byzantine_Empire/", "https://www.thebritishacademy.ac.uk/blog/what-is-byzantine-studies/"],
+            ["https://www.ushistory.org/civ/3e.asp", "https://www.goaheadtours.com/travel-blog/articles/pyramids-of-giza-facts"], 
+            ["https://www.cairn.info/revue-napoleonica-la-revue-2013-1-page-88.htm", "https://www.euronews.com/2021/02/13/french-and-russian-soldiers-who-fought-in-napoleon-s-18-12-campaign-are-finally-buried"],
+            ["https://www.thebalancesmb.com/simple-ways-make-money-online-2531879", "https://www.lifehack.org/articles/money/5-real-ways-actually-make-money-online.html"],
+            ["https://opensource.com/resources/python", "https://www.infoworld.com/article/3204016/what-is-python-powerful-intuitive-programming.html"],
+            ["https://www.metmuseum.org/toah/hd/grot/hd_grot.htm", "https://www.amacad.org/publication/ottoman-experience"],
+            ["https://courses.lumenlearning.com/waymaker-psychology/chapter/reading-parts-of-the-brain/", "https://www.news-medical.net/health/The-Anatomy-of-the-Human-Brain.aspx"],
+            ["https://www.oracle.com/internet-of-things/what-is-iot/","https://www.oracle.com/in/internet-of-things/what-is-iot/"],
+            ["https://www.thoughtco.com/anatomy-of-the-stomach-373482", "https://www.nursingtimes.net/clinical-archive/gastroenterology/gastrointestinal-tract-2-the-structure-and-function-of-the-stomach-24-06-2019/"],
+            ["https://courses.lumenlearning.com/boundless-worldhistory/chapter/the-ottoman-empire/", "https://www.laits.utexas.edu/cairo/history/ottoman/ottoman.html"],
+            ["https://en.wikivoyage.org/wiki/Istanbul","https://wikitravel.org/en/Istanbul"],
+            ["https://en.wikivoyage.org/wiki/Turkey","https://wikitravel.org/en/Turkey"],
+            ["https://courses.lumenlearning.com/atd-tcc-worldciv2/chapter/ottoman-empire/","https://en.wikipedia.org/wiki/History_of_the_Ottoman_Empire"],
             ["https://en.citizendium.org/wiki/Crusades","https://en.wikipedia.org/wiki/Crusades"],
             ["https://en.wikipedia.org/wiki/Crusades","https://chem.libretexts.org/Courses/Lumen_Learning/Book%3A_Western_Civilization_I_(Lumen)/15%3A_Week_13%3A_The_Crusades_and_The_Late_Middle_Ages/15.2%3A_Reading%3A_The_Crusades"],
             ["https://en.wikipedia.org/wiki/Decline_of_Buddhism_in_the_Indian_subcontinent","https://en.wikipedia.org/wiki/History_of_Buddhism_in_India"],
@@ -360,6 +357,3 @@ def main():
 
 if __name__ ==  '__main__':
     main()
-
-
-    

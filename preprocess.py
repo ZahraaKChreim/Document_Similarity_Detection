@@ -15,7 +15,7 @@ from nltk.tokenize import word_tokenize, sent_tokenize
 def get_syntactically_preprocessed_sentence(sentence):
 
     # Convert input sentence to lower case.
-    sentence = sentence.lower().replace("/","").replace("\\","").replace("'s"," is").replace("'m"," am").replace("'ll"," will").replace("'re"," are").replace("n't"," not")
+    sentence = sentence.lower().replace("/","").replace("\\","").replace('"',"").replace("''","").replace("`","").replace("'s"," is").replace("'m"," am").replace("'ll"," will").replace("'re"," are").replace("n't"," not")
 
     # Remove non-ascii characters
     sentence = unidecode(sentence)
@@ -25,6 +25,8 @@ def get_syntactically_preprocessed_sentence(sentence):
     # (Noise Removal) Remove stop words and punctuations from string.
     # word_tokenize is used to tokenize the input sentence in word tokens.
     sentence = " ".join([i for i in word_tokenize(sentence) if i not in stopset])
+
+    sentence = sentence.replace('"',"").replace("''","").replace("`","").replace("'s"," is").replace("-","").replace(".","")
 
     return sentence
 
@@ -62,7 +64,7 @@ def get_wordnet_pos(word):
 def get_semantically_preprocessed_sentence(sentence):
 
     # Convert input sentence to lower case.
-    sentence = sentence.lower().replace("/","").replace("\\","").replace("'s"," is").replace("'m"," am").replace("'ll"," will").replace("'re"," are").replace("n't"," not")
+    sentence = sentence.lower().replace("/","").replace("\\","").replace('"',"").replace("''","").replace("`","").replace("'s"," is").replace("'m"," am").replace("'ll"," will").replace("'re"," are").replace("n't"," not")
 
     # Remove non-ascii characters
     sentence = unidecode(sentence)
@@ -77,6 +79,7 @@ def get_semantically_preprocessed_sentence(sentence):
     # Lemmatization with WordNetLemmatizer
     lemmatizer = WordNetLemmatizer()
     sentence = " ".join(lemmatizer.lemmatize(word, get_wordnet_pos(word)) for word in word_tokenize(sentence))
+    sentence = sentence.replace('"',"").replace("''","").replace("`","").replace("'s"," is").replace("-","").replace(".","")
 
 
     # Lemmatization with Spacy Lemmatizer
