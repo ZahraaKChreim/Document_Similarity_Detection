@@ -9,7 +9,6 @@ cosine_similarity_semantic_preprocessing: 0.9999999999999999
 shortest_path_kernel_sim: 1.0
 graphs_jaccard_sim: 1.0
 veo_sim: 1.0
-mcs_based_g1_g2_sim_rate: 0.05
 
 ######################################################################
 
@@ -24,7 +23,6 @@ cosine_similarity_semantic_preprocessing: 0.9999999999999999
 shortest_path_kernel_sim: 1.0
 graphs_jaccard_sim: 1.0
 veo_sim: 1.0
-mcs_based_g1_g2_sim_rate: 0.815077659958255
 
 ######################################################################
 
@@ -39,7 +37,6 @@ cosine_similarity_semantic_preprocessing: 1.0
 shortest_path_kernel_sim: 1.0
 graphs_jaccard_sim: 1.0
 veo_sim: 1.0
-mcs_based_g1_g2_sim_rate: 0.7051572354968167
 
 ######################################################################
 
@@ -54,7 +51,6 @@ cosine_similarity_semantic_preprocessing: 0.3041551596807951
 shortest_path_kernel_sim: 0.006261833654051995
 graphs_jaccard_sim: 0.010954616588419406
 veo_sim: 0.01095461658841942
-mcs_based_g1_g2_sim_rate: 0.08333333333333333
 
 ######################################################################
 
@@ -69,7 +65,6 @@ cosine_similarity_semantic_preprocessing: 0.9724288160022316
 shortest_path_kernel_sim: 0.8343189898118465
 graphs_jaccard_sim: 0.8405448717948718
 veo_sim: 0.8405448717948717
-mcs_based_g1_g2_sim_rate: 0.6147304336910815
 
 ######################################################################
 
@@ -84,7 +79,6 @@ cosine_similarity_semantic_preprocessing: 0.842894986002331
 shortest_path_kernel_sim: 0.08070981041326004
 graphs_jaccard_sim: 0.16693944353518822
 veo_sim: 0.16693944353518828
-mcs_based_g1_g2_sim_rate: 0.2931599816989477
 
 ######################################################################
 
@@ -99,7 +93,6 @@ cosine_similarity_semantic_preprocessing: 0.5933330724456207
 shortest_path_kernel_sim: 0.009524179854135437
 graphs_jaccard_sim: 0.02637444279346211
 veo_sim: 0.02637444279346212
-mcs_based_g1_g2_sim_rate: 0.041360348173851674
 
 ######################################################################
 
@@ -114,7 +107,6 @@ cosine_similarity_semantic_preprocessing: 0.6438375878340153
 shortest_path_kernel_sim: 0.015919332254043832
 graphs_jaccard_sim: 0.021199361115144474
 veo_sim: 0.021199361115144463
-mcs_based_g1_g2_sim_rate: 0.02482366585574908
 
 ######################################################################
 
@@ -129,7 +121,6 @@ cosine_similarity_semantic_preprocessing: 0.6540899677235111
 shortest_path_kernel_sim: 0.013985409569592412
 graphs_jaccard_sim: 0.016061737302757475
 veo_sim: 0.016061737302757523
-mcs_based_g1_g2_sim_rate: 0.04618934083692032
 
 ######################################################################
 
@@ -144,7 +135,6 @@ cosine_similarity_semantic_preprocessing: 0.41023696937193804
 shortest_path_kernel_sim: 0.010112841616062506
 graphs_jaccard_sim: 0.02725173210161663
 veo_sim: 0.02725173210161663
-mcs_based_g1_g2_sim_rate: 0.006256040355467553
 
 ######################################################################
 
@@ -159,7 +149,6 @@ cosine_similarity_semantic_preprocessing: 0.502210071337381
 shortest_path_kernel_sim: 0.009683749617654724
 graphs_jaccard_sim: 0.020758585340850847
 veo_sim: 0.020758585340850857
-mcs_based_g1_g2_sim_rate: 0.023707999317755416
 
 ######################################################################
 
@@ -174,7 +163,6 @@ cosine_similarity_semantic_preprocessing: 0.06916768574037713
 shortest_path_kernel_sim: 0.0001754164916026858
 graphs_jaccard_sim: 0.003993274485077764
 veo_sim: 0.003993274485077784
-mcs_based_g1_g2_sim_rate: 0.013962765957446808
 
 ######################################################################
 
@@ -189,7 +177,6 @@ cosine_similarity_semantic_preprocessing: 0.4976190448728892
 shortest_path_kernel_sim: 0.030373096550232306
 graphs_jaccard_sim: 0.035034272658035034
 veo_sim: 0.03503427265803502
-mcs_based_g1_g2_sim_rate: 0.0046263137308686746
 
 ######################################################################
 
@@ -204,7 +191,6 @@ cosine_similarity_semantic_preprocessing: 0.7075280385206963
 shortest_path_kernel_sim: 0.024398431590077967
 graphs_jaccard_sim: 0.044137931034482755
 veo_sim: 0.0441379310344828
-mcs_based_g1_g2_sim_rate: 0.029975683625938294
 
 ######################################################################
 
@@ -219,7 +205,6 @@ cosine_similarity_semantic_preprocessing: 0.46835311326218004
 shortest_path_kernel_sim: 0.004563101359715011
 graphs_jaccard_sim: 0.014538310412573674
 veo_sim: 0.014538310412573653
-mcs_based_g1_g2_sim_rate: 0.006218877876072535
 
 ######################################################################
 
@@ -234,7 +219,6 @@ cosine_similarity_semantic_preprocessing: 0.46188057675623134
 shortest_path_kernel_sim: 0.019347902102662934
 graphs_jaccard_sim: 0.04153735975173072
 veo_sim: 0.04153735975173074
-mcs_based_g1_g2_sim_rate: 0.01368775406504065
 
 ######################################################################
 
@@ -249,7 +233,6 @@ cosine_similarity_semantic_preprocessing: 0.9793396509296237
 shortest_path_kernel_sim: 0.7983886154775677
 graphs_jaccard_sim: 0.8845714285714286
 veo_sim: 0.8845714285714286
-mcs_based_g1_g2_sim_rate: 0.8321614786136513
 
 ######################################################################
 
@@ -264,7 +247,6 @@ cosine_similarity_semantic_preprocessing: 0.555936213195599
 shortest_path_kernel_sim: 0.01497282418914941
 graphs_jaccard_sim: 0.027452891487979206
 veo_sim: 0.027452891487979185
-mcs_based_g1_g2_sim_rate: 0.001644736842105263
 
 ######################################################################
 
@@ -279,7 +261,6 @@ cosine_similarity_semantic_preprocessing: 0.2983617523711792
 shortest_path_kernel_sim: 0.014887342088856842
 graphs_jaccard_sim: 0.02294418201099007
 veo_sim: 0.022944182010990046
-mcs_based_g1_g2_sim_rate: 0.0010526315789473684
 
 ######################################################################
 
@@ -294,7 +275,6 @@ cosine_similarity_semantic_preprocessing: 0.9138164229851686
 shortest_path_kernel_sim: 0.29347781795874406
 graphs_jaccard_sim: 0.33137297164146934
 veo_sim: 0.3313729716414694
-mcs_based_g1_g2_sim_rate: 0.4890904198587501
 
 ######################################################################
 
@@ -309,7 +289,6 @@ cosine_similarity_semantic_preprocessing: 0.9649648970742145
 shortest_path_kernel_sim: 0.479873284687899
 graphs_jaccard_sim: 0.5338860762589576
 veo_sim: 0.5338860762589576
-mcs_based_g1_g2_sim_rate: 0.6648780201735867
 
 ######################################################################
 
@@ -324,7 +303,6 @@ cosine_similarity_semantic_preprocessing: 0.8990662621848152
 shortest_path_kernel_sim: 0.11799766404655333
 graphs_jaccard_sim: 0.20866367919108353
 veo_sim: 0.20866367919108353
-mcs_based_g1_g2_sim_rate: 0.4411743640990011
 
 ######################################################################
 
@@ -339,7 +317,6 @@ cosine_similarity_semantic_preprocessing: 0.7440930336823018
 shortest_path_kernel_sim: 0.05747160958926827
 graphs_jaccard_sim: 0.04348064180493949
 veo_sim: 0.04348064180493952
-mcs_based_g1_g2_sim_rate: 0.04785596402390297
 
 ######################################################################
 
@@ -354,7 +331,6 @@ cosine_similarity_semantic_preprocessing: 0.812301934665662
 shortest_path_kernel_sim: 0.08638717070664667
 graphs_jaccard_sim: 0.06017347798896049
 veo_sim: 0.060173477988960555
-mcs_based_g1_g2_sim_rate: 0.10620453672806573
 
 ######################################################################
 
@@ -369,7 +345,6 @@ cosine_similarity_semantic_preprocessing: 0.8725392124048554
 shortest_path_kernel_sim: 0.1127840465433866
 graphs_jaccard_sim: 0.1598474341192788
 veo_sim: 0.15984743411927876
-mcs_based_g1_g2_sim_rate: 0.21766160847863647
 
 ######################################################################
 
@@ -384,7 +359,6 @@ cosine_similarity_semantic_preprocessing: 0.9881516626693607
 shortest_path_kernel_sim: 0.9470836208001996
 graphs_jaccard_sim: 0.9751919669226226
 veo_sim: 0.9751919669226228
-mcs_based_g1_g2_sim_rate: 0.8547091991913165
 
 ######################################################################
 
@@ -399,7 +373,6 @@ cosine_similarity_semantic_preprocessing: 0.9137440174459093
 shortest_path_kernel_sim: 0.12366767661982463
 graphs_jaccard_sim: 0.1390185911942479
 veo_sim: 0.13901859119424798
-mcs_based_g1_g2_sim_rate: 0.24722060645939897
 
 ######################################################################
 

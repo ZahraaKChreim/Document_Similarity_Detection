@@ -146,51 +146,51 @@ def vertex_edge_overlap(g1,g2):
 
 #########################################################################
 ### FALSEEEE FUNCTION
-def MCS_based_similarity(graph1, graph2):
-    # Note: graphs must have the same number of vertices , to be able to subtract matrices
-    # graph1 & graph2 :  GraphOfWords
-    mcs = getMCS_directed(graph1, graph2)
-    mcs1 = nx.DiGraph(mcs)
-    mcs2 = nx.DiGraph(mcs)
+# def MCS_based_similarity(graph1, graph2):
+#     # Note: graphs must have the same number of vertices , to be able to subtract matrices
+#     # graph1 & graph2 :  GraphOfWords
+#     mcs = getMCS_directed(graph1, graph2)
+#     mcs1 = nx.DiGraph(mcs)
+#     mcs2 = nx.DiGraph(mcs)
 
-    g1 = graph1.graph
-    g2 = graph2.graph
+#     g1 = graph1.graph
+#     g2 = graph2.graph
 
-    # 1) Compare the maximum common subgraph to both graph1 & graph2 in terms of number of vertices & edges
-    g1_nodes = g1.number_of_nodes()
-    g1_edges = g1.number_of_edges()
-    g2_nodes = g2.number_of_nodes()
-    g2_edges = g2.number_of_edges()
-    mcs_nodes = mcs.number_of_nodes()
-    mcs_edges = mcs.number_of_edges()
+#     # 1) Compare the maximum common subgraph to both graph1 & graph2 in terms of number of vertices & edges
+#     g1_nodes = g1.number_of_nodes()
+#     g1_edges = g1.number_of_edges()
+#     g2_nodes = g2.number_of_nodes()
+#     g2_edges = g2.number_of_edges()
+#     mcs_nodes = mcs.number_of_nodes()
+#     mcs_edges = mcs.number_of_edges()
     
-    mcs_g1_common_nodes_rate = mcs_nodes / g1_nodes
-    mcs_g1_common_edges_rate = mcs_edges / g1_edges
-    mcs_g1_sim = (mcs_g1_common_nodes_rate + mcs_g1_common_edges_rate) / 2
+#     mcs_g1_common_nodes_rate = mcs_nodes / g1_nodes
+#     mcs_g1_common_edges_rate = mcs_edges / g1_edges
+#     mcs_g1_sim = (mcs_g1_common_nodes_rate + mcs_g1_common_edges_rate) / 2
 
-    mcs_g2_common_nodes_rate = mcs_nodes / g2_nodes
-    mcs_g2_common_edges_rate = mcs_edges / g2_edges
-    mcs_g2_sim = (mcs_g2_common_nodes_rate + mcs_g2_common_edges_rate) / 2
+#     mcs_g2_common_nodes_rate = mcs_nodes / g2_nodes
+#     mcs_g2_common_edges_rate = mcs_edges / g2_edges
+#     mcs_g2_sim = (mcs_g2_common_nodes_rate + mcs_g2_common_edges_rate) / 2
     
-    g1_g2_sim_rate = mcs_g1_sim if mcs_g1_sim > mcs_g2_sim else mcs_g2_sim
+#     g1_g2_sim_rate = mcs_g1_sim if mcs_g1_sim > mcs_g2_sim else mcs_g2_sim
 
-    # 2) Compare the maximum common subgraph to both graph1 & graph2 in terms of laplacian similarities
-    # 2.1) Make the graphs have the same set of vertices
-    # for node in g1.nodes():
-    #     if not node in mcs1.nodes():
-    #         mcs1.add_node(node)
-    # for node in g2.nodes():
-    #     if not node in mcs2.nodes():
-    #         mcs2.add_node(node)
+#     # 2) Compare the maximum common subgraph to both graph1 & graph2 in terms of laplacian similarities
+#     # 2.1) Make the graphs have the same set of vertices
+#     # for node in g1.nodes():
+#     #     if not node in mcs1.nodes():
+#     #         mcs1.add_node(node)
+#     # for node in g2.nodes():
+#     #     if not node in mcs2.nodes():
+#     #         mcs2.add_node(node)
 
-    # # 2.2) Compute laplacian similarities
-    # lap_sim_g1_mcs = laplacian(mcs1, g1)
-    # lap_sim_g2_mcs = laplacian(mcs2, g2)
-    # # Average Laplacian Similarity
-    # avg_lap_sim = (lap_sim_g1_mcs + lap_sim_g2_mcs)/2
+#     # # 2.2) Compute laplacian similarities
+#     # lap_sim_g1_mcs = laplacian(mcs1, g1)
+#     # lap_sim_g2_mcs = laplacian(mcs2, g2)
+#     # # Average Laplacian Similarity
+#     # avg_lap_sim = (lap_sim_g1_mcs + lap_sim_g2_mcs)/2
 
-    #return avg_lap_sim, g1_g2_sim_rate
-    return g1_g2_sim_rate
+#     #return avg_lap_sim, g1_g2_sim_rate
+#     return g1_g2_sim_rate
 
  
 
@@ -279,10 +279,10 @@ def get_similarities(driver, url1, url2):
 
     ## False Function
     #mcs_based_avg_lap_sim, mcs_based_g1_g2_sim_rate = MCS_based_similarity(graph1, graph2)
-    mcs_based_g1_g2_sim_rate = MCS_based_similarity(graph1, graph2)
+    #mcs_based_g1_g2_sim_rate = MCS_based_similarity(graph1, graph2)
     # False
     #results['mcs_based_avg_lap_sim']=mcs_based_avg_lap_sim
-    results['mcs_based_g1_g2_sim_rate']=mcs_based_g1_g2_sim_rate
+    #results['mcs_based_g1_g2_sim_rate']=mcs_based_g1_g2_sim_rate
 
     return results
 
@@ -345,7 +345,6 @@ def main():
         results_file.write("graphs_jaccard_sim: "+ str(results['graphs_jaccard_sim']) + "\n")
         results_file.write("veo_sim: "+ str(results['veo_sim']) + "\n")
         
-        results_file.write("mcs_based_g1_g2_sim_rate: "+ str(results['mcs_based_g1_g2_sim_rate']) + "\n")
         results_file.write("\n######################################################################\n\n")
 
         print("Pair number", i, "done")
