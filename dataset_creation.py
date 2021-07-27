@@ -21,7 +21,7 @@ def get_queries_from_file(file_name):
 
 def get_URLs_of_query(driver: webdriver.Chrome, query):
 
-    print("Get URLs Of Query Function Started...")
+    print("Get URLs Of Query Function Started... Query:", query)
     # Search Query on Google.com
     driver.get("https://www.google.com")
     search = driver.find_element_by_name("q")
@@ -42,13 +42,15 @@ def get_URLs_of_query(driver: webdriver.Chrome, query):
         for URL_element in URLs:
             list_of_URLs.append(URL_element.find_elements_by_tag_name("a").get_attribute('href'))
 
-    print("Get URLs Of Query Function Done")
+    print("Get URLs Of Query Function Done, Query:", query)
     return list_of_URLs
 
 
 def extract_data(file_name):
 
-    print("Extract Data Function Started...")
+    logfile = open("logfile.txt", "w")
+
+    print("Extract Data Function Started... File:", file_name)
     # Get domain & lang of queries in current file
     lang_domain = ((file_name.split("."))[0]).split("_")
     lang = lang_domain[0]
@@ -57,14 +59,18 @@ def extract_data(file_name):
     # Get all queries in file
     file_name = "Queries/" + file_name
     queries = get_queries_from_file(file_name)
+    queries_count = queries.count()
 
-    
     # For each query, get its urls results, iterate them and get their page content and save to Database
     for query in queries:
+        i = 1
         driver = webdriver.Chrome('chromedriver')
         list_of_URLs_of_query = get_URLs_of_query(driver, query)
+        urls_of_query_count = list_of_URLs_of_query.count()
 
         for url in list_of_URLs_of_query:
+            j = 1
+            print("url", j, " of ", urls_of_query_count, "/ Query ", i, " of ", queries_count, "/ File: ", file_name)
             # Get Content
             website_title, page_title, list_of_subtitles, list_of_urls, text_paragraphs_single_string = document.get_webpage_content(driver, url)
             
@@ -72,10 +78,17 @@ def extract_data(file_name):
             urls = "___".join(url for url in list_of_urls)
 
             # Save (insert) To Database
-            db.insert_into_db(lang, domain, query, url, website_title, page_title, subtitles, urls, text_paragraphs_single_string)
-            
+            if db.insert_into_db(lang, domain, query, url, website_title, page_title, subtitles, urls, text_paragraphs_single_string):
+                logfile.write("Insert Done url: ", url, " Query: ", query)
+            else:
+                logfile.write("Insert Error in url: ", url)
+            j += 1
+
+        i += 1   
         driver.close()
-    print("Extract Data Function Done")
+
+    print("Extract Data Function Done, File:", file_name)
+    logfile.close()
     
 
 def extract_all_data():
@@ -90,14 +103,17 @@ def extract_all_data():
     print("Extract All Data Function Done")
 
 if __name__ ==  '__main__':
-    print("main")
+
+    print("Dataset Creation Main Started...")
 
     db = database_handler.databaseHandler()
     print("MySQL connection is opened")
 
-
-    #extract_all_data()
+    extract_all_data()
 
     if db.con.is_connected():
         db.con.close()
         print("MySQL connection is closed")
+
+    print("Dataset Creation Main Finished...")
+    print("Dataset Successfully Created!!")

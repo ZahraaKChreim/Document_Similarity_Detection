@@ -23,9 +23,11 @@ class databaseHandler:
             cursor.execute(insert_query, record)
             self.con.commit()
             print("New Record inserted successfully")
+            return True
         
         except mysql.connector.Error as error:
             print("Failed to insert into MySQL table {}".format(error))
+            return False
 
     def select_from_db_by_query(self, query):
 
