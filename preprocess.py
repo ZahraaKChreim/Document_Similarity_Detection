@@ -110,13 +110,11 @@ def get_semantically_preprocessed_sentence(sentence):
 #     return new_list_of_sentences
 
 def get_semantically_preprocessed_paragraph(paragraph):
-    preprocessed_paragraph = ""
     preprocessed_paragraph_list_of_sentences = []
     for sentence in sent_tokenize(paragraph):
         preprocessed_sentence = get_semantically_preprocessed_sentence(sentence)
-        preprocessed_paragraph += preprocessed_sentence
         preprocessed_paragraph_list_of_sentences.append(preprocessed_sentence)
-    return preprocessed_paragraph, preprocessed_paragraph_list_of_sentences
+    return preprocessed_paragraph_list_of_sentences
 
 # def get_semantically_preprocessed_paragraph_return_as_list(paragraph):
 #     # input: one paragraph
