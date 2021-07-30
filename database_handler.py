@@ -22,7 +22,7 @@ class databaseHandler:
             
             cursor.execute(insert_query, record)
             self.con.commit()
-            print("New Record inserted successfully")
+            print("New Record inserted successfully\n")
             return True
         
         except mysql.connector.Error as error:

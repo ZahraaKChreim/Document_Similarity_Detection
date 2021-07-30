@@ -3,6 +3,7 @@ from selenium.common.exceptions import NoSuchElementException, StaleElementRefer
 def get_webpage_content(driver, url):
 
     driver.get(url)
+
     website_title = (driver.title).lower()
 
     ## Page_title = first h1 element
