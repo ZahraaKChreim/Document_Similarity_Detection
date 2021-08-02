@@ -1,12 +1,12 @@
 # https://gitlab.com/vi.le/graphofwords/-/tree/master
 
 from itertools import tee
-from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tokenize import word_tokenize
 import networkx as nx
 import matplotlib.pyplot as plt
 import multiprocessing as mp
 import typing
-from functools import reduce
+import numpy as np
 
 
 class GraphOfWords:
@@ -170,9 +170,17 @@ def vertex_edge_overlap(g1,g2):
 
     V_overlap = len(V1|V2)
     E_overlap = len(E1|E2)
-    vertex_edge_overlap_value = (V_overlap + E_overlap) / (len(V1)+len(V2)+len(E1)+len(E2))
+
+    denominator = len(V1)+len(V2)+len(E1)+len(E2)
+    if denominator == 0:
+        vertex_edge_overlap_value = 0
+    else:
+        vertex_edge_overlap_value = (V_overlap + E_overlap) / denominator
 
     # Similarity Value from Vertex_Edge Overlap Value
+    if vertex_edge_overlap_value == 0:
+        return 0, 0
+        
     vertex_edge_sim = np.abs(1-vertex_edge_overlap_value)/vertex_edge_overlap_value
     if vertex_edge_sim > 1:
         vertex_edge_sim = 1 / vertex_edge_sim

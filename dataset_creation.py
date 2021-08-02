@@ -1,5 +1,5 @@
 from selenium import webdriver
-import selenium
+import pandas as pd
 import database_handler
 import document
 from selenium.webdriver.support.ui import WebDriverWait
@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.chrome.options import Options
+import getSimilarity
 
 def go_to_next_page(driver: webdriver.Chrome, page_nb: int):
     print("Go To Next Page Function Started...")
@@ -273,6 +274,43 @@ def test():
         print("SOMETHING DIFFERENT")
         print("############################")
 
+def calculate_similarity_and_export_to_csv(query):
+
+    print("Function calculate_similarity_and_export_to_csv Started...")
+
+    columns = ['id1', 'id2', 'similarity']
+    list_of_ids1 = []
+    list_of_ids2 = []
+    list_of_similarities = []
+
+    records_of_query = db.select_from_db_by_query(query)
+
+    total = len(records_of_query)
+    r1 = 1
+    for i in range(total):
+        record1 = records_of_query[i]
+        r2 = r1+1
+        for record2 in records_of_query[i+1:]:
+            print (r1, '-', r2, '(', total, ')')
+            r2 += 1
+
+            final_similarity_score = getSimilarity.get_similarity_record1_record2(record1, record2)
+
+            list_of_ids1.append(record1.get('id'))
+            list_of_ids2.append(record2.get('id'))
+            list_of_similarities.append(final_similarity_score)
+        r1 += 1
+
+    data = {
+        'id1':list_of_ids1,
+        'id2':list_of_ids2,
+        'similarity': list_of_similarities
+    }
+    df = pd.DataFrame(data, columns= columns)
+    df.to_csv (r'exported_data.csv', index = True, header=True)
+
+    print("Function calculate_similarity_and_export_to_csv Done")
+
 if __name__ ==  '__main__':
 
     print("Dataset Creation Main Started...") 
@@ -281,7 +319,10 @@ if __name__ ==  '__main__':
     print("MySQL connection is opened")
 
     #error()
-    extract_all_data()    
+    #extract_all_data()  
+
+    query = 'byzantines'
+    calculate_similarity_and_export_to_csv(query)
 
     if db.con.is_connected():
         db.con.close()

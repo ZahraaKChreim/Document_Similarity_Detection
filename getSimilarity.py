@@ -51,6 +51,8 @@ def get_jaccard_of_two_sentences(sentence1,sentence2):
     set_of_words_of_sentence2 = set(sentence2.split(' '))
     intersection_cardinality = len(set.intersection(*[set_of_words_of_sentence1, set_of_words_of_sentence2]))
     union_cardinality = len(set.union(*[set_of_words_of_sentence1, set_of_words_of_sentence2]))
+    if union_cardinality == 0:
+        return 0
     return intersection_cardinality/float(union_cardinality)
 
 def get_jaccard_of_two_lists_of_sentences(list_of_sentences1,list_of_sentences2):
@@ -81,10 +83,24 @@ def get_similarity_url1_url2(url1, url2):
     subtitles2 = url2_results.get("subtitles")
     urls1 = url1_results.get("urls")
     urls2 = url2_results.get("urls")
-    list_of_subtitles1 = subtitles1.split("___")
-    list_of_subtitles2 = subtitles2.split("___")
-    list_of_urls1 = urls1.split("___")
-    list_of_urls2 = urls2.split("___")
+
+    if subtitles1 == '':
+        list_of_subtitles1 = []
+    else:
+        list_of_subtitles1 = subtitles1.split("___")
+    if subtitles2 == '':
+        list_of_subtitles2 = []
+    else:
+        list_of_subtitles2 = subtitles2.split("___")
+
+    if urls1 == '':
+        list_of_subtitles1 = []
+    else:
+        list_of_urls1 = urls1.split("___")
+    if urls2 == '':
+        list_of_subtitles2 = []
+    else:
+        list_of_urls2 = urls2.split("___")
 
     subtitles_sim = get_jaccard_of_two_lists_of_sentences(list_of_subtitles1, list_of_subtitles2)
     urls_sim = get_jaccard_of_two_lists_of_sentences(list_of_urls1, list_of_urls2)
@@ -93,6 +109,58 @@ def get_similarity_url1_url2(url1, url2):
     syntactically_preprocessed_body_text2 = preprocess.get_syntactically_preprocessed_paragraph(url2_results.get("body"))
     semantically_preprocessed_paragraph_as_list_of_sentences1 = preprocess.get_semantically_preprocessed_paragraph(url1_results.get("body"))
     semantically_preprocessed_paragraph_as_list_of_sentences2 = preprocess.get_semantically_preprocessed_paragraph(url2_results.get("body"))
+
+    cosine_similarity = get_cosine_of_2_sentences(syntactically_preprocessed_body_text1, syntactically_preprocessed_body_text2)
+
+    # Graph Representation
+    graph1 = GraphOfWords(window_size=4)
+    graph1.build_graph(semantically_preprocessed_paragraph_as_list_of_sentences1, workers=4)
+    g1 = graph1.graph
+
+    graph2 = GraphOfWords(window_size=4)
+    graph2.build_graph(semantically_preprocessed_paragraph_as_list_of_sentences2, workers=4)
+    g2 = graph2.graph  
+
+    veo_val, veo_sim = vertex_edge_overlap(g1, g2)
+
+    final_similarity_score = p_w*website_titles_sim + p_t*page_titles_sim + p_s*subtitles_sim + p_u*urls_sim + p_c*cosine_similarity + p_g*veo_sim
+    return final_similarity_score
+
+def get_similarity_record1_record2(record1, record2):
+
+    website_titles_sim = get_cosine_of_2_sentences(record1.get("website_title"), record2.get("website_title"))
+    page_titles_sim = get_cosine_of_2_sentences(record1.get("page_title"), record2.get("page_title"))
+
+    subtitles1 = record1.get("subtitles")
+    subtitles2 = record2.get("subtitles")
+    urls1 = record1.get("urls")
+    urls2 = record2.get("urls")
+
+    if subtitles1 == '':
+        list_of_subtitles1 = []
+    else:
+        list_of_subtitles1 = subtitles1.split("___")
+    if subtitles2 == '':
+        list_of_subtitles2 = []
+    else:
+        list_of_subtitles2 = subtitles2.split("___")
+
+    if urls1 == '':
+        list_of_urls1 = []
+    else:
+        list_of_urls1 = urls1.split("___")
+    if urls2 == '':
+        list_of_urls2 = []
+    else:
+        list_of_urls2 = urls2.split("___")
+
+    subtitles_sim = get_jaccard_of_two_lists_of_sentences(list_of_subtitles1, list_of_subtitles2)
+    urls_sim = get_jaccard_of_two_lists_of_sentences(list_of_urls1, list_of_urls2)
+
+    syntactically_preprocessed_body_text1 = preprocess.get_syntactically_preprocessed_paragraph(record1.get("body"))
+    syntactically_preprocessed_body_text2 = preprocess.get_syntactically_preprocessed_paragraph(record2.get("body"))
+    semantically_preprocessed_paragraph_as_list_of_sentences1 = preprocess.get_semantically_preprocessed_paragraph(record1.get("body"))
+    semantically_preprocessed_paragraph_as_list_of_sentences2 = preprocess.get_semantically_preprocessed_paragraph(record2.get("body"))
 
     cosine_similarity = get_cosine_of_2_sentences(syntactically_preprocessed_body_text1, syntactically_preprocessed_body_text2)
 

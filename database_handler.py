@@ -35,7 +35,7 @@ class databaseHandler:
             cursor = self.con.cursor()
             select_query = """  SELECT *
                                 FROM data
-                                WHERE data.query = '""" + query + """ ' """
+                                WHERE data.query = '""" + query + """ '"""
             cursor.execute(select_query)
 
             select_result = cursor.fetchall()
@@ -91,3 +91,22 @@ class databaseHandler:
 
         except mysql.connector.Error as error:
             print("Failed to select url " + url + " from MySQL: {}".format(error))
+
+
+    def select_all_queries_from_db(self):
+
+        try:
+            cursor = self.con.cursor()
+            select_query = """  SELECT DISTINCT query
+                                FROM data """
+            cursor.execute(select_query)
+            select_result = cursor.fetchall()
+
+            queries = []
+            for query in select_result:
+                queries.append(query[0])
+
+            return queries
+
+        except mysql.connector.Error as error:
+            print("Failed to select list of queries from MySQL: {}".format(error))
