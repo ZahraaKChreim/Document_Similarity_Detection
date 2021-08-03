@@ -291,7 +291,7 @@ def calculate_similarity_and_export_to_csv(query):
         record1 = records_of_query[i]
         r2 = r1+1
         for record2 in records_of_query[i+1:]:
-            print (r1, '-', r2, '(', total, ')')
+            print (query, ':', r1, '-', r2, '(', total, ')')
             r2 += 1
 
             final_similarity_score = getSimilarity.get_similarity_record1_record2(record1, record2)
@@ -307,7 +307,9 @@ def calculate_similarity_and_export_to_csv(query):
         'similarity': list_of_similarities
     }
     df = pd.DataFrame(data, columns= columns)
-    df.to_csv (r'exported_data.csv', index = True, header=True)
+    file_name = query + "_data.csv"
+    file_name = r''+file_name
+    df.to_csv (file_name, index = True, header=True)
 
     print("Function calculate_similarity_and_export_to_csv Done")
 
@@ -321,7 +323,10 @@ if __name__ ==  '__main__':
     #error()
     #extract_all_data()  
 
-    query = 'byzantines'
+    query = 'crusades'
+    calculate_similarity_and_export_to_csv(query)
+
+    query = 'benefits of anise'
     calculate_similarity_and_export_to_csv(query)
 
     if db.con.is_connected():
