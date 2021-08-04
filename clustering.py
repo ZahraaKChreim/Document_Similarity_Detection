@@ -27,7 +27,6 @@ def to_matrix(data: TextFileReader):
         if not id2s.__contains__(id2):
             id2s.append(id2)
 
-
     for id in id1s:
         if id not in id2s:
             id2s.append(id)
@@ -53,22 +52,18 @@ def to_matrix(data: TextFileReader):
     
     return 1 - pairwise
 
-def to_matrix_using_pivot(data):
-    data_piv = data.pivot("id2", "id1", "similarity").fillna(0)
-    piv_arr = data_piv.values
-    dist_mat = piv_arr + np.transpose(piv_arr)
-    print(dist_mat)
+# def to_matrix_using_pivot(data):
+#     data_piv = data.pivot("id2", "id1", "similarity").fillna(0)
+#     piv_arr = data_piv.values
+#     dist_mat = piv_arr + np.transpose(piv_arr)
+#     print(dist_mat)
 
 def cluster_data(data):
-    # clusters = data.copy()
-    # kMeans = KMeans(3)
-    # clusters['cluster_predict'] = kMeans.fit_predict(clusters)
-    from sklearn.cluster import AgglomerativeClustering
-
-    cluster = AgglomerativeClustering(n_clusters=3, affinity='euclidean', linkage='ward')
-    cluster.fit(data)
-
-    print(cluster.feature_names)
+    # from sklearn.cluster import AgglomerativeClustering
+    # cluster = AgglomerativeClustering(n_clusters=3, affinity='euclidean', linkage='ward')
+    # cluster.fit(data)
+    print(data[5699])
+    #print(cluster.labels_)
 
     # plt.figure(figsize =(6, 6))
     # plt.scatter(data['id1'], data['id2'],
@@ -90,6 +85,12 @@ def main(filename):
     data = read_data(filename)
 
     pairwise_distance_matrix = to_matrix(data)
+    #print(pairwise_distance_matrix)
+
+    cluster_data(pairwise_distance_matrix)
+
+    
+
     # clusters = hcl.linkage(squareform(pairwise_distance_matrix))
     # print(len(clusters))
     #cluster_data(pairwise_distance_matrix)
@@ -102,20 +103,21 @@ def main(filename):
     # plt.ylabel('Euclidean distances')
     # plt.show()
 
-    from sklearn.cluster import AgglomerativeClustering 
-    hc = AgglomerativeClustering(n_clusters = 3, affinity = 'euclidean', linkage ='ward')
-    y_hc=hc.fit_predict(pairwise_distance_matrix)
-    plt.scatter(pairwise_distance_matrix[y_hc==0, 0], pairwise_distance_matrix[y_hc==0, 1], s=100, c='red', label ='Cluster 1')
-    plt.scatter(pairwise_distance_matrix[y_hc==1, 0], pairwise_distance_matrix[y_hc==1, 1], s=100, c='blue', label ='Cluster 2')
-    plt.scatter(pairwise_distance_matrix[y_hc==2, 0], pairwise_distance_matrix[y_hc==2, 1], s=100, c='green', label ='Cluster 3')
-    plt.title('Clusters of Customers (Hierarchical Clustering Model)')
-    plt.xlabel('Annual Income(k$)')
-    plt.ylabel('Spending Score(1-100')
-    plt.show()
-
+    # from sklearn.cluster import AgglomerativeClustering 
+    # hc = AgglomerativeClustering(n_clusters = 3, affinity = 'euclidean', linkage ='ward')
+    # y_hc=hc.fit_predict(pairwise_distance_matrix)
+    # plt.scatter(pairwise_distance_matrix[y_hc==0, 0], pairwise_distance_matrix[y_hc==0, 1], s=100, c='red', label ='Cluster 1')
+    # plt.scatter(pairwise_distance_matrix[y_hc==1, 0], pairwise_distance_matrix[y_hc==1, 1], s=100, c='blue', label ='Cluster 2')
+    # plt.scatter(pairwise_distance_matrix[y_hc==2, 0], pairwise_distance_matrix[y_hc==2, 1], s=100, c='green', label ='Cluster 3')
+    # plt.title('Clusters of Customers (Hierarchical Clustering Model)')
+    # plt.xlabel('Annual Income(k$)')
+    # plt.ylabel('Spending Score(1-100')
+    # plt.show()
 
     # linkage_matrix = hcl.linkage(squareform(pairwise_distance_matrix, method='single', metric='euclidean'))
     # print(linkage_matrix)
+
+    
 
     
 
