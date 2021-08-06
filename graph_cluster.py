@@ -32,11 +32,11 @@ def show_graph(G):
 
 if __name__ ==  '__main__':
 
-    filename = 'crusades_data.csv'
+    filename = 'byzantines_data.csv'
     threshold = 0.7
     g = Graph_of_pages(filename, threshold)
     clusters = g.get_clusters()
     for cluster in clusters:
-        #show_graph(cluster)
+        show_graph(cluster)
         print(cluster.nodes)
         print("--------------------------------------------------------")
