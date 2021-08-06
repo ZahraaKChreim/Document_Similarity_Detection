@@ -152,30 +152,65 @@ def manual_agglomerative_clustering(data):
 #     dist_mat = piv_arr + np.transpose(piv_arr)
 #     print(dist_mat)
 
-def dbscan_cluster_data(pairwise_distance_matrix):
+def dbscan_cluster_data(X):
 
     """Precomputed distance matrix in DBSCAN"""
 
     from sklearn.cluster import DBSCAN
-    from collections import Counter
 
-    clustering = DBSCAN(metric='precomputed')
-    clustering.fit(pairwise_distance_matrix)
-    nb_clusters = len(Counter(clustering.labels_))
+    db = DBSCAN(metric='precomputed').fit(X)
+    # core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
+    # core_samples_mask[db.core_sample_indices_] = True
+    labels = db.labels_
+
+    # Number of clusters in labels, ignoring noise if present.
+    n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
+    n_noise_ = list(labels).count(-1)
+
+    print('Estimated number of clusters: %d' % n_clusters_)
+    print('Estimated number of noise points: %d' % n_noise_)
+    print(labels)
+
+    # #############################################################################
+    # Plot result
+
+    # Black removed and is used for noise instead.
+    # unique_labels = set(labels)
+    # colors = [plt.cm.Spectral(each)
+    #         for each in np.linspace(0, 1, len(unique_labels))]
+    # for k, col in zip(unique_labels, colors):
+    #     if k == -1:
+    #         # Black used for noise.
+    #         col = [0, 0, 0, 1]
+
+    #     class_member_mask = (labels == k)
+
+    #     xy = X[class_member_mask & core_samples_mask]
+    #     plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
+    #             markeredgecolor='k', markersize=14)
+
+    #     xy = X[class_member_mask & ~core_samples_mask]
+    #     plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
+    #             markeredgecolor='k', markersize=6)
+
+    # plt.title('Estimated number of clusters: %d' % n_clusters_)
+    # plt.show()
+
+    # nb_clusters = len(Counter(clustering.labels_))
     
-    cluster_map = pd.DataFrame()
-    cluster_map['data_index'] = pairwise_distance_matrix.index.values
-    cluster_map['cluster'] = clustering.labels_
+    # cluster_map = pd.DataFrame()
+    # cluster_map['data_index'] = pairwise_distance_matrix.index.values
+    # cluster_map['cluster'] = clustering.labels_
 
-    cluster1 = cluster_map[cluster_map.cluster == -1]
-    cluster2 = cluster_map[cluster_map.cluster == 0]
-    cluster3 = cluster_map[cluster_map.cluster == 1]
+    # cluster1 = cluster_map[cluster_map.cluster == -1]
+    # cluster2 = cluster_map[cluster_map.cluster == 0]
+    # cluster3 = cluster_map[cluster_map.cluster == 1]
 
-    cluster1_ids = cluster1['data_index'].index
-    cluster2_ids = cluster2['data_index'].index
-    cluster3_ids = cluster3['data_index'].index
+    # cluster1_ids = cluster1['data_index'].index
+    # cluster2_ids = cluster2['data_index'].index
+    # cluster3_ids = cluster3['data_index'].index
 
-    return cluster1_ids, cluster2_ids, cluster3_ids
+    # return cluster1_ids, cluster2_ids, cluster3_ids
 
 def cluster_data(data):
     
@@ -211,6 +246,7 @@ def main(filename):
     #manual_agglomerative_clustering(data)
 
     pairwise_distance_matrix = to_matrix(data)
+    dbscan_cluster_data(pairwise_distance_matrix)
     print(pairwise_distance_matrix)
 
     # cluster1_ids, cluster2_ids, cluster3_ids = dbscan_cluster_data(pairwise_distance_matrix)

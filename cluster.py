@@ -82,6 +82,7 @@ def main(filename):
     data = read_data(filename)
     data = data['similarity']
 
+
     distict_similarities = []
 
     for value in data:
@@ -94,13 +95,16 @@ def main(filename):
     clusters = manual_numbers_clustering(distict_similarities, nb_of_clusters)
     
     for index, cluster in clusters.items():
-        print(index, ":", len(cluster), 'items')
+        print(index, ":", len(cluster), 'record')
         print(cluster)
         print('########################################################')
 
-    print(len(clusters))
+    #print(len(clusters))
 
 if __name__ ==  '__main__':
 
     filename = 'crusades_data.csv'
+    main(filename)
+
+    filename = 'byzantines_data.csv'
     main(filename)
