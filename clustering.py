@@ -1,17 +1,22 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from pandas.core.construction import array
 from pandas.io.parsers import TextFileReader
 import seaborn as sns
 sns.set()
 from sklearn.cluster import KMeans
 from scipy.spatial.distance import pdist, squareform
 import scipy.cluster.hierarchy as hcl
+from sklearn.metrics import pairwise_distances
+
 id1s = []
 id2s = []
+
 def read_data(filename):
     data = pd.read_csv(filename)
     data = data[['id1','id2','similarity']]
+    #data = data[['similarity']]
     return data
 
 def to_matrix(data: TextFileReader):
@@ -46,11 +51,100 @@ def to_matrix(data: TextFileReader):
     )
 
     for index, row in data.iterrows():
-        pairwise.loc[row['id1'], row['id2']] = row['similarity']
-        pairwise.loc[row['id2'], row['id1']] = row['similarity']
+        if row['similarity'] > 1:
+            pairwise.loc[row['id1'], row['id2']] = 1
+            pairwise.loc[row['id2'], row['id1']] = 1
+        else:
+            pairwise.loc[row['id1'], row['id2']] = row['similarity']
+            pairwise.loc[row['id2'], row['id1']] = row['similarity']
 
     
-    return 1 - pairwise
+    return pairwise
+
+def manual_agglomerative_clustering(data):
+    #matrix = to_matrix(data)
+    similarity_column_data = data['similarity'].values
+    initial_clusters = {k: [] for k in range(1, len(similarity_column_data)+1)}
+    
+    i = 1
+    for sim in similarity_column_data:
+        initial_clusters[i].append(sim)
+        i += 1
+
+    similarity_column_data = similarity_column_data.reshape(-1, 1)
+
+    distance_matrix = pairwise_distances(similarity_column_data, Y=None, metric='euclidean')
+    # print(matrix)
+    # print(distance_matrix.__index__)
+
+    from scipy.cluster.hierarchy import dendrogram, linkage
+    from scipy.cluster import hierarchy as hier
+    #condensed_dist_matrix = squareform(distance_matrix)
+    Z = linkage(distance_matrix, method='centroid', metric='euclidean')
+    #d = dendrogram(Z)
+
+    idx = hier.fcluster(Z,0.5*distance_matrix.max(), 'distance')
+    #print(idx)
+    
+    ids = []
+    for id in idx:
+        if id not in ids:
+            ids.append(id)
+    nb_clusters = len(ids)
+    clusters = {k: [] for k in range(1, nb_clusters+1)}
+    for index, id in enumerate(idx):
+        clusters[id].append(similarity_column_data[index])
+
+    print(clusters)
+
+    # min_value = np.inf
+    # for i in range(len(distance_matrix)):
+    #     for j in range(i):
+    #         if( distance_matrix[i][j] < min_value):
+    #             min_value = distance_matrix[i][j]
+    #             min_i = i
+    #             min_j = j
+
+    # for i in range(len(distance_matrix)):
+    #     if( i > min_i  and i < min_j ):
+    #         distance_matrix[i][min_i] = min(distance_matrix[i][min_i],distance_matrix[min_j][i])
+
+    #     elif( i > min_j ):
+    #         distance_matrix[i][min_i] = min(distance_matrix[i][min_i],distance_matrix[i][min_j])
+
+    # for j in range(len(distance_matrix)):
+    #     if( j < min_i ):
+    #         distance_matrix[min_i][j] = min(distance_matrix[min_i][j],distance_matrix[min_j][j])
+
+    # #remove one of the old clusters data from the distance matrix
+    # distance_matrix = np.delete(distance_matrix, min_j, axis=1)
+    # distance_matrix = np.delete(distance_matrix, min_j, axis=0)
+
+    # print(distance_matrix)
+
+    # A = []
+    # A[min_i] = A[min_i] + A[min_j] 
+    # A.pop(min_j)
+
+    # from scipy.cluster.hierarchy import dendrogram, linkage
+    # from scipy.cluster import hierarchy as hier
+    # from scipy.spatial import distance as ssd
+    # Z = linkage(ssd.pdist(similarity_column_data), method="average")
+
+    # fig, ax = plt.subplots(nrows=4)
+    # ax[2].set_title("pdist")
+    # Z = linkage(ssd.pdist(similarity_column_data), method="average")
+    # hier.dendrogram(Z, ax=ax[2])
+    # plt.show()
+    #print(pairwise_distance_matrix)
+
+    # dst_matrix = pd.DataFrame(
+    #     pairwise_distance_matrix,
+    #     columns = initial_clusters.keys(),
+    #     index = initial_clusters.keys()
+    # )
+
+    # print(dst_matrix)
 
 # def to_matrix_using_pivot(data):
 #     data_piv = data.pivot("id2", "id1", "similarity").fillna(0)
@@ -58,11 +152,38 @@ def to_matrix(data: TextFileReader):
 #     dist_mat = piv_arr + np.transpose(piv_arr)
 #     print(dist_mat)
 
+def dbscan_cluster_data(pairwise_distance_matrix):
+
+    """Precomputed distance matrix in DBSCAN"""
+
+    from sklearn.cluster import DBSCAN
+    from collections import Counter
+
+    clustering = DBSCAN(metric='precomputed')
+    clustering.fit(pairwise_distance_matrix)
+    nb_clusters = len(Counter(clustering.labels_))
+    
+    cluster_map = pd.DataFrame()
+    cluster_map['data_index'] = pairwise_distance_matrix.index.values
+    cluster_map['cluster'] = clustering.labels_
+
+    cluster1 = cluster_map[cluster_map.cluster == -1]
+    cluster2 = cluster_map[cluster_map.cluster == 0]
+    cluster3 = cluster_map[cluster_map.cluster == 1]
+
+    cluster1_ids = cluster1['data_index'].index
+    cluster2_ids = cluster2['data_index'].index
+    cluster3_ids = cluster3['data_index'].index
+
+    return cluster1_ids, cluster2_ids, cluster3_ids
+
 def cluster_data(data):
-    # from sklearn.cluster import AgglomerativeClustering
+    
+    
+
+    from sklearn.cluster import AgglomerativeClustering
     # cluster = AgglomerativeClustering(n_clusters=3, affinity='euclidean', linkage='ward')
     # cluster.fit(data)
-    print(data[5699])
     #print(cluster.labels_)
 
     # plt.figure(figsize =(6, 6))
@@ -83,13 +204,24 @@ def cluster_data(data):
 
 def main(filename):
     data = read_data(filename)
+    # data_similarity = data['similarity']
+    # plt.hist(data_similarity, len(data_similarity)) 
+    # plt.title("histogram") 
+    # plt.show()
+    #manual_agglomerative_clustering(data)
 
     pairwise_distance_matrix = to_matrix(data)
-    #print(pairwise_distance_matrix)
+    print(pairwise_distance_matrix)
 
-    cluster_data(pairwise_distance_matrix)
-
+    # cluster1_ids, cluster2_ids, cluster3_ids = dbscan_cluster_data(pairwise_distance_matrix)
+    # similarities = []
+    # for index in cluster3_ids:
+    #     similarities.append(data.at[index, 'similarity'])
+    # for sim in similarities:
+    #     print(sim)
     
+    # plt.bar(np.arange(len(similarities)), similarities)
+    # plt.show()
 
     # clusters = hcl.linkage(squareform(pairwise_distance_matrix))
     # print(len(clusters))
@@ -97,7 +229,7 @@ def main(filename):
     #print(pairwise_distance_matrix)
     
     # import scipy.cluster.hierarchy as sch
-    # dendrogram = sch.dendrogram(sch.linkage(pairwise_distance_matrix, method  = "ward"))
+    # dendrogram = sch.dendrogram(sch.linkage(data, method  = "ward"))
     # plt.title('Dendrogram')
     # plt.xlabel('Customers')
     # plt.ylabel('Euclidean distances')
