@@ -124,3 +124,21 @@ def get_semantically_preprocessed_paragraph(paragraph):
 #     for sentence in sentences:
 #             new_list_of_sentences.append(get_semantically_preprocessed_string(sentence))
 #     return new_list_of_sentences
+
+
+def preprocess_sentence_for_graph(sentence):
+
+    from nltk.stem.wordnet import WordNetLemmatizer # to download corpora: python -m    nltk.downloader all
+    lemmatizer = WordNetLemmatizer() # create a lemmatizer object
+
+    sentence = sentence.lower().replace("/","").replace("\\","").replace('"',"").replace("''","").replace("`","").replace("'s"," is").replace("'m"," am").replace("'ll"," will").replace("'re"," are").replace("n't"," not")
+
+    sentence = unidecode(sentence)
+
+    stopset = stopwords.words('english') + list(string.punctuation)
+    sentence = " ".join([i for i in word_tokenize(sentence) if i not in stopset])
+
+    sentence = " ".join(lemmatizer.lemmatize(word, get_wordnet_pos(word)) for word in word_tokenize(sentence))
+    sentence = sentence.replace('"',"").replace("''","").replace("`","").replace("'s"," is").replace("-","").replace(".","")
+
+    return sentence
