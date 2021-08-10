@@ -310,7 +310,7 @@ def calculate_similarity_and_export_to_csv(query):
         'similarity': list_of_similarities
     }
     df = pd.DataFrame(data, columns= columns)
-    file_name = query + "_data.csv"
+    file_name = "CSVs/" + query + "_data.csv"
     file_name = r''+file_name
     df.to_csv (file_name, index = True, header=True)
 
@@ -327,9 +327,12 @@ if __name__ ==  '__main__':
     #error()
     #extract_all_data()  
 
-    query = 'crusades'
+    query = 'live in canada'
+    from time import time
+    t = time()
     calculate_similarity_and_export_to_csv(query)
-
+    x = time() - t
+    print(x/60)
     # query = 'benefits of anise'
     # calculate_similarity_and_export_to_csv(query)
 

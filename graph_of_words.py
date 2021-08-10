@@ -8,26 +8,11 @@ import typing
 import numpy as np
 
 class GraphOfWords:
-    """
-    Represent a graph of words object
-
-    Args:
-        window_size (int, optional): The size of window
-        language (str, optional): The language of the text
-    """
-
-    #######################################################
-    ######################## init  ########################
-    #######################################################
 
     def __init__(self, window_size=4):
 
         self.window_size = window_size
         self.graph = nx.DiGraph()
-
-    #######################################################
-    ####################### window  #######################
-    #######################################################
     
     def __window(self, iterable: typing.Iterable) -> typing.Iterable:
         """
@@ -45,25 +30,8 @@ class GraphOfWords:
             for each in iters[i:]:
                 next(each, None)
         return list(zip(*iters))
-
-    #######################################################
-    ################## Analyse Sentence  ##################
-    #######################################################
     
     def analyse_sentence(self, sentence: str) -> list:
-        
-        """
-        Treat a single sentence with a sliding window connecting words in a
-        graph Return a list of edges insteads, then the graph will be created
-        from this graph
-
-        Args:
-            sentence (str): The sentence to process
-
-        Returns:
-            list: The graph edges.
-
-        """
         edges = []
 
         words = word_tokenize(sentence)
@@ -78,24 +46,8 @@ class GraphOfWords:
                             edge
                         )
         return edges
-
-    #######################################################
-    #################### Build Graph  #####################
-    #######################################################
     
-    def build_graph(self, text: str, workers: int = 1):
-        
-        """
-        Build the graph itself
-
-        Args:
-            text (str): list of sentences
-            workers (int, optional): Number of cores to use
-        """
-        #print("Build Graph...")
-
-        sentences = text
-
+    def build_graph(self, sentences: str):
         edges = []
         for sentence in sentences:
             edges += self.analyse_sentence(sentence)
@@ -122,12 +74,12 @@ def vertex_edge_overlap(g1,g2):
     E_overlap = len(E1|E2)
 
     denominator = len(V1)+len(V2)+len(E1)+len(E2)
+
     if denominator == 0:
         vertex_edge_overlap_value = 0
     else:
         vertex_edge_overlap_value = (V_overlap + E_overlap) / denominator
 
-    # Similarity Value from Vertex_Edge Overlap Value
     if vertex_edge_overlap_value == 0:
         return 0, 0
         
@@ -136,3 +88,125 @@ def vertex_edge_overlap(g1,g2):
         vertex_edge_sim = 1 / vertex_edge_sim
 
     return vertex_edge_overlap_value, vertex_edge_sim
+
+def graph_similarity(g1,g2):
+    # Code from: https://github.com/peterewills/NetComp/blob/master/netcomp/distance/exact.py
+    # graphs not necessary same number of vertices !!
+    
+    # Getting sets of vertices & edges
+    V1,V2 = [set(G.nodes()) for G in [g1,g2]]
+    E1,E2 = [set(G.edges()) for G in [g1,g2]]
+
+    V_overlap = len(V1|V2)
+    E_overlap = len(E1|E2)
+
+    V_intersection = len(V1&V2)
+    E_intersection = len(E1&E2)
+
+    numerator = E_intersection
+    denominator = E_overlap
+
+    if numerator == 0:
+        sim = 0
+    else:
+        sim = numerator / denominator
+
+    return sim
+
+def main(id1, id2):
+
+    result1 = db.select_from_db_by_id(id1)
+    result2 = db.select_from_db_by_id(id2)
+
+    sim = getSimilarity.get_similarity_record1_record2(result1, result2)
+    print("Graph Similarity:", sim)
+    print("---------------------------------------------------------------------")
+
+if __name__ ==  '__main__':
+
+    import database_handler
+    import getSimilarity
+    db = database_handler.databaseHandler()
+    print("---------------------------------------------------------------------")
+    print("---------------------------------------------------------------------")
+    print("MySQL connection is opened")
+
+    id1 = 5701
+    id2 = 5707
+    main(id1, id2)
+
+    id1 = 5707
+    id2 = 5711
+    main(id1, id2)
+
+    id1 = 5756
+    id2 = 5785
+    main(id1, id2)
+
+    id1 = 5759
+    id2 = 5787
+    main(id1, id2)
+
+    id1 = 5759
+    id2 = 5790
+    main(id1, id2)
+
+    id1 = 5700
+    id2 = 5728
+    main(id1, id2)
+
+    id1 = 5701
+    id2 = 5771
+    main(id1, id2)
+
+    id1 = 5700
+    id2 = 5741
+    main(id1, id2)
+
+    id1 = 5700
+    id2 = 5727
+    main(id1, id2)
+
+    id1 = 5700
+    id2 = 5751
+    main(id1, id2)
+
+    id1 = 408
+    id2 = 411
+    main(id1, id2)
+    
+
+    if db.con.is_connected():
+        db.con.close()
+        print("MySQL connection is closed")
+
+#     import preprocess
+
+#     text1 = """Released by Paramount Pictures, Airplane! was a critical and commercial success, grossing $171 million worldwide against a budget of $3.5 million.[8] Its creators received the Writers Guild of America Award for Best Adapted Comedy, and nominations for the Golden Globe Award for Best Motion Picture – Musical or Comedy and for the BAFTA Award for Best Screenplay.
+# In the years since its release, the film's reputation has grown substantially. Airplane! was ranked 6th on Bravo's '100 Funniest Movies'.[9] In a 2007 survey by Channel 4 in the United Kingdom, it was judged the second-greatest comedy of all time, behind Monty Python's Life of Brian.[10] In 2008, it was selected by Empire magazine as one of 'The 500 Greatest Movies of All Time' and in 2012 was voted #1 on 'The 50 Funniest Comedies Ever' poll.[11] In 2010, the film was selected for preservation in the United States National Film Registry by the Library of Congress as being "culturally, historically, or aesthetically significant".[12][13][14]"""
+
+    
+#     text1 = preprocess.get_semantically_preprocessed_paragraph(text1)
+
+#     graph1 = GraphOfWords(window_size=4)
+#     graph1.build_graph(text1)
+#     g1 = graph1.graph
+#     edges1 = g1.edges()
+#     #show_graph(graph1)
+#     #print(edges1)
+
+#     text2 = """Released by Paramount , Airplane! was a commercial success, grossing $171 million worldwide against a budget of $3.5 million.[8] Its creators received the Writers Guild of America Award for Best Adapted Comedy, and nominations for the Golden Globe Award for Best Motion Picture – Musical or Comedy and for the BAFTA Award for Best Screenplay.
+# the film's reputation has grown substantially. Airplane! was ranked 6th on Bravo's '100 Funniest Movies'.[9] In a 2007 survey by Channel 4 in the United Kingdom, it was judged the second-greatest comedy of all time, behind Monty Python's Life of Brian.[10] In 2008, it was selected by Empire magazine as one of 'The 500 Greatest Movies of All Time' and in 2012 was voted #1 on 'The 50 Funniest Comedies Ever' poll.[11] In 2010, the film was selected for preservation in the United States National Film Registry by the Library of Congress as being "culturally, historically, or aesthetically significant".[12][13][14]"""
+
+    
+#     text2 = preprocess.get_semantically_preprocessed_paragraph(text2)
+
+#     graph2 = GraphOfWords(window_size=4)
+#     graph2.build_graph(text2)
+#     g2 = graph2.graph
+#     edges2 = g2.edges()
+#     #show_graph(graph2)
+#     #print(edges2)
+
+#     sim = graph_similarity(g1, g2)
+#     print(sim)

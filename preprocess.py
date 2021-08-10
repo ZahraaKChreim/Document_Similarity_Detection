@@ -20,6 +20,9 @@ def get_syntactically_preprocessed_sentence(sentence):
     # Remove non-ascii characters
     sentence = unidecode(sentence)
 
+    # Remove all Digits
+    sentence = ''.join([i for i in sentence if not i.isdigit()])
+
     # Collecting a list of punctuations form string class
     stopset = list(string.punctuation)
     # (Noise Removal) Remove stop words and punctuations from string.
@@ -69,9 +72,12 @@ def get_semantically_preprocessed_sentence(sentence):
     # Remove non-ascii characters
     sentence = unidecode(sentence)
 
+    # Remove all Digits
+    sentence = ''.join([i for i in sentence if not i.isdigit()])
+
     # Collecting a list of stop words from nltk and punctuation form string class and create single array
-    #stopset = stopwords.words('english') + list(string.punctuation)
-    stopset = list(string.punctuation)
+    stopset = stopwords.words('english') + list(string.punctuation)
+    #stopset = list(string.punctuation)
     # - ['no', 'nor', 'not', 'only']
     # (Noise Removal) Remove stop words and punctuations from string.
     # word_tokenize is used to tokenize the input sentence in word tokens.

@@ -40,7 +40,7 @@ class databaseHandler:
             cursor = self.con.cursor()
             select_query = """  SELECT *
                                 FROM data
-                                WHERE data.query = '""" + query + """ '"""
+                                WHERE lang='en' and body != "" and  data.query = '""" + query + """ '"""
             cursor.execute(select_query)
 
             select_result = cursor.fetchall()
@@ -101,6 +101,38 @@ class databaseHandler:
         except mysql.connector.Error as error:
             print("Failed to select url " + url + " from MySQL: {}".format(error))
 
+    def select_from_db_by_id(self, id):
+
+        try:
+            cursor = self.con.cursor()
+            select_query = """  SELECT *
+                                FROM data
+                                WHERE data.id = '""" + str(id) + """ ' """
+            cursor.execute(select_query)
+
+            select_result = cursor.fetchall()
+
+            # This should be one row result
+            for record in select_result:
+                id = record[0]
+                lang = record[1]
+                domain = record[2]
+                query = record[3]
+                url = record[4]
+                website_title = record[5]
+                page_title = record[6]
+                subtitles = record[7]
+                urls = record[8]
+                body = record[9]
+                synt_proc_body = record[10]
+                sem_proc_body = record[11]
+
+                result = {'id': id, 'lang': lang, 'domain': domain, 'query': query, 'url': url, 'website_title': website_title, 'page_title': page_title, 'subtitles': subtitles, 'urls': urls, 'body': body, 'synt_proc_body': synt_proc_body, 'sem_proc_body': sem_proc_body}
+                
+            return result
+
+        except mysql.connector.Error as error:
+            print("Failed to select id " + id + " from MySQL: {}".format(error))
 
     def select_all_queries_from_db(self):
 
@@ -159,7 +191,7 @@ class databaseHandler:
 
                 cursor = self.con.cursor()
                 update_query = """ UPDATE data
-                                SET synt_proc_body = " """ + synt_proc_body + """ " , sem_proc_body = " """ + sem_proc_body + """ "
+                                SET synt_proc_body = '""" + synt_proc_body + """' , sem_proc_body = '""" + sem_proc_body + """'
                                 WHERE id = '""" + str(id) + """'"""
                 cursor.execute(update_query)
                 self.con.commit()
