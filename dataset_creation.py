@@ -1,3 +1,4 @@
+from re import T
 from selenium import webdriver
 import pandas as pd
 import database_handler
@@ -8,6 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.chrome.options import Options
 import getSimilarity
+
 
 def go_to_next_page(driver: webdriver.Chrome, page_nb: int):
     print("Go To Next Page Function Started...")
@@ -274,6 +276,7 @@ def test():
         print("SOMETHING DIFFERENT")
         print("############################")
 
+
 def calculate_similarity_and_export_to_csv(query):
 
     print("Function calculate_similarity_and_export_to_csv Started...")
@@ -315,6 +318,7 @@ def calculate_similarity_and_export_to_csv(query):
 
 if __name__ ==  '__main__':
 
+
     print("Dataset Creation Main Started...") 
 
     db = database_handler.databaseHandler()
@@ -326,8 +330,8 @@ if __name__ ==  '__main__':
     query = 'crusades'
     calculate_similarity_and_export_to_csv(query)
 
-    query = 'benefits of anise'
-    calculate_similarity_and_export_to_csv(query)
+    # query = 'benefits of anise'
+    # calculate_similarity_and_export_to_csv(query)
 
     if db.con.is_connected():
         db.con.close()

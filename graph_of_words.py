@@ -4,10 +4,8 @@ from itertools import tee
 from nltk.tokenize import word_tokenize
 import networkx as nx
 import matplotlib.pyplot as plt
-import multiprocessing as mp
 import typing
 import numpy as np
-
 
 class GraphOfWords:
     """
@@ -22,7 +20,7 @@ class GraphOfWords:
     ######################## init  ########################
     #######################################################
 
-    def __init__(self, window_size=10):
+    def __init__(self, window_size=4):
 
         self.window_size = window_size
         self.graph = nx.DiGraph()
@@ -53,6 +51,7 @@ class GraphOfWords:
     #######################################################
     
     def analyse_sentence(self, sentence: str) -> list:
+        
         """
         Treat a single sentence with a sliding window connecting words in a
         graph Return a list of edges insteads, then the graph will be created
@@ -66,7 +65,6 @@ class GraphOfWords:
 
         """
         edges = []
-        seen_words = []
 
         words = word_tokenize(sentence)
         word_windows = self.__window(words)
@@ -74,14 +72,11 @@ class GraphOfWords:
         for idx_word_window, word_window in enumerate(word_windows, start=0):
             for idx, outer_word in enumerate(word_window):
                 for idx_inner, inner_word in enumerate(word_window[idx + 1 :], start=2):
-                    word_id = "{0}_{1}_{2}".format(
-                        outer_word, inner_word, (idx_inner + idx_word_window + idx)
-                    )
-                    if word_id not in seen_words:
+                    edge = (outer_word, inner_word)
+                    if edge not in edges:
                         edges.append(
-                            (outer_word, inner_word, self.window_size - idx_inner + 2)
+                            edge
                         )
-                        seen_words.append(word_id)
         return edges
 
     #######################################################
@@ -89,6 +84,7 @@ class GraphOfWords:
     #######################################################
     
     def build_graph(self, text: str, workers: int = 1):
+        
         """
         Build the graph itself
 
@@ -100,63 +96,17 @@ class GraphOfWords:
 
         sentences = text
 
-        pool = mp.Pool(processes=workers)
-        edges = pool.map(self.analyse_sentence, sentences)
-        pool.close()
-        pool.join()
-        edges = [edge for sublist in edges for edge in sublist]
+        edges = []
+        for sentence in sentences:
+            edges += self.analyse_sentence(sentence)
         
-        weighted_edges = {}
-        initial_weights = []
-        final_edges = []
-        node_labels = {}
-        edge_labels = {}
-
-        for edge in edges:
-            edge_name = edge[0]+'_'+edge[1]
-            edge_value = edge[2]
-            initial_weights.append((edge_name,edge_value))
-        
-        for edge in initial_weights:
-            if edge[0] in weighted_edges.keys():
-                weighted_edges[edge[0]] = weighted_edges[edge[0]] + edge[1]
-            else:
-                weighted_edges[edge[0]] = edge[1]
-
-        for node1_node2, weight in weighted_edges.items():
-            nodes = node1_node2.split("_")
-            node1 = nodes[0]
-            node2 = nodes[1]
-            if node1 not in node_labels:
-                node_labels[node1] = node1
-            if node2 not in node_labels:
-                node_labels[node2] = node2
-            edge = (node1, node2, weight)
-
-            edge_label = (node1, node2)
-            if edge_label not in edge_labels:
-                edge_labels[edge_label] = edge_label
-            final_edges.append(edge)
-
-
-        self.graph.add_weighted_edges_from(final_edges)
-
+        self.graph.add_edges_from(edges)
 
 def show_graph(g: GraphOfWords):
     graph = g.graph
     pos = nx.spring_layout(graph, k=10)  # For better example looking
     nx.draw(graph, pos, with_labels=True)
     nx.draw_networkx_labels(graph, pos)
-    plt.show()
-
-def show_graph_with_edge_labels(g: GraphOfWords):
-    G = g.graph
-    pos = nx.spring_layout(G, k=10)  # For better example looking
-    nx.draw(G, pos, with_labels=True)
-    nx.draw_networkx_labels(G, pos)
-    #labels = {(n1,n2):n1+'-'+n2+':'+str(weight) for n1, n2, weight in G.edges(data="weight")}
-    labels = {(n1,n2):str(weight) for n1, n2, weight in G.edges(data="weight")}
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels, label_pos=.66)
     plt.show()
 
 

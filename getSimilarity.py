@@ -105,19 +105,29 @@ def get_similarity_url1_url2(url1, url2):
     subtitles_sim = get_jaccard_of_two_lists_of_sentences(list_of_subtitles1, list_of_subtitles2)
     urls_sim = get_jaccard_of_two_lists_of_sentences(list_of_urls1, list_of_urls2)
 
-    syntactically_preprocessed_body_text1 = preprocess.get_syntactically_preprocessed_paragraph(url1_results.get("body"))
-    syntactically_preprocessed_body_text2 = preprocess.get_syntactically_preprocessed_paragraph(url2_results.get("body"))
-    semantically_preprocessed_paragraph_as_list_of_sentences1 = preprocess.get_semantically_preprocessed_paragraph(url1_results.get("body"))
-    semantically_preprocessed_paragraph_as_list_of_sentences2 = preprocess.get_semantically_preprocessed_paragraph(url2_results.get("body"))
+    syntactically_preprocessed_body_text1 = url1_results.get("synt_proc_body")
+    syntactically_preprocessed_body_text2 = url2_results.get("synt_proc_body")
+    semantically_preprocessed_paragraph1 = url1_results.get("sem_proc_body")
+    semantically_preprocessed_paragraph2 = url2_results.get("sem_proc_body")
+
+    if semantically_preprocessed_paragraph1 == '':
+        semantically_preprocessed_paragraph_as_list_of_sentences1 = []
+    else:
+        semantically_preprocessed_paragraph_as_list_of_sentences1 = semantically_preprocessed_paragraph1.split("___")
+
+    if semantically_preprocessed_paragraph2 == '':
+        semantically_preprocessed_paragraph_as_list_of_sentences2 = []
+    else:
+        semantically_preprocessed_paragraph_as_list_of_sentences2 = semantically_preprocessed_paragraph2.split("___")
 
     cosine_similarity = get_cosine_of_2_sentences(syntactically_preprocessed_body_text1, syntactically_preprocessed_body_text2)
 
     # Graph Representation
-    graph1 = GraphOfWords(window_size=4)
+    graph1 = GraphOfWords(window_size=2)
     graph1.build_graph(semantically_preprocessed_paragraph_as_list_of_sentences1, workers=4)
     g1 = graph1.graph
 
-    graph2 = GraphOfWords(window_size=4)
+    graph2 = GraphOfWords(window_size=2)
     graph2.build_graph(semantically_preprocessed_paragraph_as_list_of_sentences2, workers=4)
     g2 = graph2.graph  
 
@@ -157,10 +167,20 @@ def get_similarity_record1_record2(record1, record2):
     subtitles_sim = get_jaccard_of_two_lists_of_sentences(list_of_subtitles1, list_of_subtitles2)
     urls_sim = get_jaccard_of_two_lists_of_sentences(list_of_urls1, list_of_urls2)
 
-    syntactically_preprocessed_body_text1 = preprocess.get_syntactically_preprocessed_paragraph(record1.get("body"))
-    syntactically_preprocessed_body_text2 = preprocess.get_syntactically_preprocessed_paragraph(record2.get("body"))
-    semantically_preprocessed_paragraph_as_list_of_sentences1 = preprocess.get_semantically_preprocessed_paragraph(record1.get("body"))
-    semantically_preprocessed_paragraph_as_list_of_sentences2 = preprocess.get_semantically_preprocessed_paragraph(record2.get("body"))
+    syntactically_preprocessed_body_text1 = record1.get("synt_proc_body")
+    syntactically_preprocessed_body_text2 = record2.get("synt_proc_body")
+    semantically_preprocessed_paragraph1 = record1.get("sem_proc_body")
+    semantically_preprocessed_paragraph2 = record2.get("sem_proc_body")
+
+    if semantically_preprocessed_paragraph1 == '':
+        semantically_preprocessed_paragraph_as_list_of_sentences1 = []
+    else:
+        semantically_preprocessed_paragraph_as_list_of_sentences1 = semantically_preprocessed_paragraph1.split("___")
+
+    if semantically_preprocessed_paragraph2 == '':
+        semantically_preprocessed_paragraph_as_list_of_sentences2 = []
+    else:
+        semantically_preprocessed_paragraph_as_list_of_sentences2 = semantically_preprocessed_paragraph2.split("___")
 
     cosine_similarity = get_cosine_of_2_sentences(syntactically_preprocessed_body_text1, syntactically_preprocessed_body_text2)
 

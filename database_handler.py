@@ -1,4 +1,9 @@
+import preprocess
+import time
 import mysql.connector
+from textblob import TextBlob
+from googletrans import Translator
+from langdetect import detect
 
 class databaseHandler:
 
@@ -52,8 +57,10 @@ class databaseHandler:
                 subtitles = record[7]
                 urls = record[8]
                 body = record[9]
+                synt_proc_body = record[10]
+                sem_proc_body = record[11]
 
-                result = {'id': id, 'lang': lang, 'domain': domain, 'query': query, 'url': url, 'website_title': website_title, 'page_title': page_title, 'subtitles': subtitles, 'urls': urls, 'body': body}
+                result = {'id': id, 'lang': lang, 'domain': domain, 'query': query, 'url': url, 'website_title': website_title, 'page_title': page_title, 'subtitles': subtitles, 'urls': urls, 'body': body, 'synt_proc_body': synt_proc_body, 'sem_proc_body': sem_proc_body}
                 results.append(result)
                 
             return results
@@ -84,9 +91,11 @@ class databaseHandler:
                 subtitles = record[7]
                 urls = record[8]
                 body = record[9]
+                synt_proc_body = record[10]
+                sem_proc_body = record[11]
 
-                result = {'id': id, 'lang': lang, 'domain': domain, 'query': query, 'url': url, 'website_title': website_title, 'page_title': page_title, 'subtitles': subtitles, 'urls': urls, 'body': body}
-            
+                result = {'id': id, 'lang': lang, 'domain': domain, 'query': query, 'url': url, 'website_title': website_title, 'page_title': page_title, 'subtitles': subtitles, 'urls': urls, 'body': body, 'synt_proc_body': synt_proc_body, 'sem_proc_body': sem_proc_body}
+                
             return result
 
         except mysql.connector.Error as error:
@@ -110,3 +119,133 @@ class databaseHandler:
 
         except mysql.connector.Error as error:
             print("Failed to select list of queries from MySQL: {}".format(error))
+
+    def select_all_ids_from_db(self):
+
+        try:
+            cursor = self.con.cursor()
+            select_query = """  SELECT id
+                                FROM data WHERE lang='en' and body != "" """
+            cursor.execute(select_query)
+            select_result = cursor.fetchall()
+
+            ids = []
+            for query in select_result:
+                ids.append(query[0])
+
+            return ids
+
+        except mysql.connector.Error as error:
+            print("Failed to select list of ids from MySQL: {}".format(error))
+
+    def preprocess_record_by_id(self, id):
+
+        try:
+            cursor = self.con.cursor()
+            select_query = """ SELECT body
+                               FROM data
+                               WHERE id = '""" + str(id) + """'"""
+            cursor.execute(select_query)
+            select_result = cursor.fetchall()
+
+            # This should be one row result
+            for record in select_result:
+                body = record[0]
+
+            if body.replace(" ", "") != "":
+                synt_proc_body = preprocess.get_syntactically_preprocessed_paragraph(body)
+                list_sem_proc_body = preprocess.get_semantically_preprocessed_paragraph(body)
+                sem_proc_body = "___".join(sentence for sentence in list_sem_proc_body)
+
+                cursor = self.con.cursor()
+                update_query = """ UPDATE data
+                                SET synt_proc_body = " """ + synt_proc_body + """ " , sem_proc_body = " """ + sem_proc_body + """ "
+                                WHERE id = '""" + str(id) + """'"""
+                cursor.execute(update_query)
+                self.con.commit()
+                print(cursor.rowcount, "record(s) affected")
+
+        except mysql.connector.Error as error:
+            print("Failed to update record: {}".format(error))
+
+    def correct_language_by_id(self, id):
+        
+        try:
+            cursor = self.con.cursor()
+            select_query = """ SELECT body
+                               FROM data
+                               WHERE id = '""" + str(id) + """'"""
+            cursor.execute(select_query)
+            select_result = cursor.fetchall()
+
+            # This should be one row result
+            for record in select_result:
+                body = record[0]
+
+            if body != "":
+                # tb = TextBlob(body)
+                # lang = tb.detect_language()
+                
+                # translator = Translator()
+                # lang = translator.detect(body).lang
+
+                lang = detect(body)
+
+                if lang != 'en':
+                    print(lang, "not en\n\n")
+                    cursor = self.con.cursor()
+                    update_query = """ UPDATE data
+                                    SET lang = '""" + lang + """'
+                                    WHERE id = '""" + str(id) + """'"""
+                    cursor.execute(update_query)
+                    self.con.commit()
+                    print(cursor.rowcount, "record(s) affected:", id)
+
+        except mysql.connector.Error as error:
+            print("Failed to update record lang: {}".format(error))
+
+def correct_languages():
+
+    db = databaseHandler()
+    print("MySQL connection is opened")
+
+    ids = db.select_all_ids_from_db()
+    i = 1
+    total = len(ids)
+    for id in ids:
+        print(id, ", nb", i, "of", total)
+        i += 1
+        db.correct_language_by_id(id)
+
+    if db.con.is_connected():
+        db.con.close()
+        print("MySQL connection is closed")
+
+def preprocessing():
+
+    db = databaseHandler()
+    print("MySQL connection is opened")
+
+    ids = db.select_all_ids_from_db()
+    total = len(ids)
+
+    i = 1
+    t = time.time()
+
+    for id in ids:
+        print("preprocessing ", id, "(", i, "of", total, ")")
+        i += 1
+        db.preprocess_record_by_id(id)
+
+    x = time.time() - t
+    print("Preprocessing time:", x)
+
+    if db.con.is_connected():
+        db.con.close()
+        print("MySQL connection is closed")
+
+if __name__ ==  '__main__':
+    
+    #correct_languages()
+    preprocessing()
+
