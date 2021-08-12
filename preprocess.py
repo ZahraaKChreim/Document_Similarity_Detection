@@ -67,7 +67,7 @@ def get_wordnet_pos(word):
 def get_semantically_preprocessed_sentence(sentence):
 
     # Convert input sentence to lower case.
-    sentence = sentence.lower().replace("/","").replace("\\","").replace('"',"").replace("''","").replace("`","").replace("'s"," is").replace("'m"," am").replace("'ll"," will").replace("'re"," are").replace("n't"," not")
+    sentence = sentence.lower().replace("/","").replace("\\","").replace('"',"").replace("''","").replace("`","")
 
     # Remove non-ascii characters
     sentence = unidecode(sentence)
@@ -86,7 +86,7 @@ def get_semantically_preprocessed_sentence(sentence):
     # Lemmatization with WordNetLemmatizer
     lemmatizer = WordNetLemmatizer()
     sentence = " ".join(lemmatizer.lemmatize(word, get_wordnet_pos(word)) for word in word_tokenize(sentence))
-    sentence = sentence.replace('"',"").replace("''","").replace("`","").replace("'s"," is").replace("-","").replace(".","").replace("'","")
+    sentence = sentence.replace('"',"").replace("''","").replace("`","").replace("-","").replace(".","").replace("'","")
 
     return sentence
 
@@ -95,8 +95,17 @@ def get_semantically_preprocessed_sentence(sentence):
 #######################################################
 
 def get_semantically_preprocessed_paragraph(paragraph):
-    preprocessed_paragraph_list_of_sentences = []
+    preprocessed_paragraph = []
+    paragraph = paragraph.replace("'s"," is").replace("'m"," am").replace("'ll"," will").replace("'re"," are").replace("n't"," not")
+    paragraph = paragraph.replace("\n", "").replace("   ", "").replace("  ", "")
+
+    punctuations = list(string.punctuation)
+    punctuations.remove('.')
+    for punctuation in punctuations:
+        paragraph.replace(punctuation, "")
+    
     for sentence in sent_tokenize(paragraph):
         preprocessed_sentence = get_semantically_preprocessed_sentence(sentence)
-        preprocessed_paragraph_list_of_sentences.append(preprocessed_sentence)
-    return preprocessed_paragraph_list_of_sentences
+        preprocessed_paragraph.append(preprocessed_sentence)
+    
+    return preprocessed_paragraph

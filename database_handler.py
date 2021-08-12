@@ -40,7 +40,7 @@ class databaseHandler:
             cursor = self.con.cursor()
             select_query = """  SELECT *
                                 FROM data
-                                WHERE lang='en' and body != "" and  data.query = '""" + query + """ '"""
+                                WHERE lang='en' and body != "" and data.query = '""" + query + """ '"""
             cursor.execute(select_query)
 
             select_result = cursor.fetchall()
@@ -184,18 +184,17 @@ class databaseHandler:
             for record in select_result:
                 body = record[0]
 
-            if body.replace(" ", "") != "":
-                synt_proc_body = preprocess.get_syntactically_preprocessed_paragraph(body)
-                list_sem_proc_body = preprocess.get_semantically_preprocessed_paragraph(body)
-                sem_proc_body = "___".join(sentence for sentence in list_sem_proc_body)
+            synt_proc_body = preprocess.get_syntactically_preprocessed_paragraph(body)
+            sem_proc_body_list = preprocess.get_semantically_preprocessed_paragraph(body)
+            sem_proc_body = "___".join(sentence for sentence in sem_proc_body_list)
 
-                cursor = self.con.cursor()
-                update_query = """ UPDATE data
-                                SET synt_proc_body = '""" + synt_proc_body + """' , sem_proc_body = '""" + sem_proc_body + """'
-                                WHERE id = '""" + str(id) + """'"""
-                cursor.execute(update_query)
-                self.con.commit()
-                print(cursor.rowcount, "record(s) affected")
+            cursor = self.con.cursor()
+            update_query = """ UPDATE data
+                            SET synt_proc_body = '""" + synt_proc_body + """' , sem_proc_body = '""" + sem_proc_body + """'
+                            WHERE id = '""" + str(id) + """'"""
+            cursor.execute(update_query)
+            self.con.commit()
+            print(cursor.rowcount, "record(s) affected")
 
         except mysql.connector.Error as error:
             print("Failed to update record: {}".format(error))
@@ -270,7 +269,8 @@ def preprocessing():
         db.preprocess_record_by_id(id)
 
     x = time.time() - t
-    print("Preprocessing time:", x)
+    x = x/60
+    print("Preprocessing time:", x, "min")
 
     if db.con.is_connected():
         db.con.close()

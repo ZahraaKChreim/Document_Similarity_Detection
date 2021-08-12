@@ -327,7 +327,7 @@ if __name__ ==  '__main__':
     #error()
     #extract_all_data()  
 
-    query = 'live in canada'
+    query = 'crusades'
     from time import time
     t = time()
     calculate_similarity_and_export_to_csv(query)
