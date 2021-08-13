@@ -20,7 +20,7 @@ def go_to_next_page(driver: webdriver.Chrome, page_nb: int):
 def get_queries_from_file(file_name):
     print("Get Queries From File Function Started...")
     queries = []
-    queries_file = open(file_name, "r")
+    queries_file = open(file_name, "r", encoding='utf8')
     for query in queries_file.readlines():
         queries.append(query.strip())
     
@@ -57,7 +57,7 @@ def get_URLs_of_query(driver: webdriver.Chrome, query):
     return list_of_URLs
 
 
-def extract_data(file_name):
+def extract_data(directory, file_name):
 
     logfile = open("logfile.txt", "w")
 
@@ -68,7 +68,7 @@ def extract_data(file_name):
     domain = lang_domain[1]
 
     # Get all queries in file
-    file_name = "Queries/" + file_name
+    file_name = directory + file_name
     queries = get_queries_from_file(file_name)
     queries_count = len(queries)
 
@@ -127,14 +127,15 @@ def extract_data(file_name):
     print("Extract Data Function Done, File:", file_name)
     logfile.close()   
 
-def extract_all_data():
+def extract_all_data(directory):
 
     print("Extract All Data Function Started...")
     import os
-    files = os.listdir("Queries/")
+    #files = os.listdir("Queries/")
+    files = os.listdir(directory)
     # Iterate through all files
     for file_name in files:
-        extract_data(file_name)
+        extract_data(directory, file_name)
 
     print("Extract All Data Function Done")
 
@@ -325,14 +326,15 @@ if __name__ ==  '__main__':
     print("MySQL connection is opened")
 
     #error()
-    #extract_all_data()  
+    extract_all_data("Queries Arabic/")
+    extract_all_data("Queries French/")  
 
-    query = 'crusades'
-    from time import time
-    t = time()
-    calculate_similarity_and_export_to_csv(query)
-    x = time() - t
-    print(x/60)
+    # query = 'crusades'
+    # from time import time
+    # t = time()
+    # calculate_similarity_and_export_to_csv(query)
+    # x = time() - t
+    # print(x/60)
     # query = 'benefits of anise'
     # calculate_similarity_and_export_to_csv(query)
 

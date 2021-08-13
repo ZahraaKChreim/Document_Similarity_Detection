@@ -6,11 +6,18 @@ import string
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize, sent_tokenize
 
+import spacy
+nlp = spacy.load('fr_core_news_md')
+french_stopwords = nltk.corpus.stopwords.words('french')
 
-#######################################################
-###### Syntactic String Preprocessing: Lowercase ######
-########### no ASCII characters, Punctucation #########
-#######################################################
+from snowballstemmer import stemmer
+ar_stemmer = stemmer("arabic")
+from qalsadi import lemmatizer
+ar_lemmer = lemmatizer.Lemmatizer()
+
+"""
+    ENGLISH
+"""
 
 def get_syntactically_preprocessed_sentence(sentence):
 
@@ -34,19 +41,12 @@ def get_syntactically_preprocessed_sentence(sentence):
     return sentence
 
 
-#######################################################
-###### Syntactic List of Sentences Preprocessing ######
-#######################################################
-
 def get_syntactically_preprocessed_paragraph(paragraph):
     preprocessed_paragraph = ""
     for sentence in sent_tokenize(paragraph):
-        preprocessed_paragraph += get_syntactically_preprocessed_sentence(sentence)
+        preprocessed_paragraph = preprocessed_paragraph + " " + get_syntactically_preprocessed_sentence(sentence)
     return preprocessed_paragraph
 
-#######################################################
-############ Define POS tags for Lemmatizer ###########
-#######################################################
 
 def get_wordnet_pos(word):
 
@@ -59,10 +59,6 @@ def get_wordnet_pos(word):
 
     return tag_dict.get(tag, wordnet.NOUN)
 
-#######################################################
-###### Semantic String Preprocessing: Lowercase #######
-#### no ASCII characters, Punctucation, Stopwords #####
-#######################################################
 
 def get_semantically_preprocessed_sentence(sentence):
 
@@ -90,9 +86,6 @@ def get_semantically_preprocessed_sentence(sentence):
 
     return sentence
 
-#######################################################
-###### Semantic List of Sentences Preprocessing #######
-#######################################################
 
 def get_semantically_preprocessed_paragraph(paragraph):
     preprocessed_paragraph = []
@@ -109,3 +102,120 @@ def get_semantically_preprocessed_paragraph(paragraph):
         preprocessed_paragraph.append(preprocessed_sentence)
     
     return preprocessed_paragraph
+
+"""
+    FRENCH
+"""
+
+def get_semantically_preprocessed_french_paragraph(paragraph):
+    preprocessed_paragraph = []
+    paragraph = paragraph.replace("\n", "").replace("   ", "").replace("  ", "")
+    punctuations = list(string.punctuation)
+    punctuations.remove('.')
+    for punctuation in punctuations:
+        paragraph.replace(punctuation, "")
+
+    for sentence in sent_tokenize(paragraph):
+        preprocessed_sentence = get_semantically_preprocessed_french_sentence(sentence)
+        preprocessed_paragraph.append(preprocessed_sentence)
+    
+    return preprocessed_paragraph
+
+def get_semantically_preprocessed_french_sentence(sentence):
+    # https://newbedev.com/lemmatize-french-text
+
+    sentence = sentence.lower().replace("/","").replace("\\","").replace('"',"").replace("''","").replace("`","").replace("-", " ")
+    sentence = unidecode(sentence)
+    sentence = ''.join([i for i in sentence if not i.isdigit()])
+
+    stopset = french_stopwords + list(string.punctuation)
+    sentence = " ".join([i for i in word_tokenize(sentence) if i not in stopset])
+
+    sentence = nlp(u"" + sentence)
+
+    lemmatized_sentence = " ".join(word.lemma_ for word in sentence)
+
+    sentence = lemmatized_sentence.replace('"',"").replace("''","").replace("`","").replace("-","").replace(".","").replace("'","")
+    
+    return sentence
+
+def get_syntactically_preprocessed_french_paragraph(paragraph):
+    paragraph = paragraph.replace("-", " ").replace("\n", " ").replace("   ", " ").replace("  ", " ")
+    preprocessed_paragraph = ""
+    for sentence in sent_tokenize(paragraph):
+        preprocessed_paragraph = preprocessed_paragraph + " " + get_syntactically_preprocessed_french_sentence(sentence)
+    return preprocessed_paragraph
+
+def get_syntactically_preprocessed_french_sentence(sentence):
+
+    sentence = sentence.lower().replace("/","").replace("\\","").replace('"',"").replace("''","").replace("`","")
+    sentence = unidecode(sentence)
+    sentence = ''.join([i for i in sentence if not i.isdigit()])
+
+    stopset = list(string.punctuation)
+    sentence = " ".join([i for i in word_tokenize(sentence) if i not in stopset])
+
+    sentence = sentence.replace('"',"").replace("''","").replace("`","").replace("-","").replace(".","").replace("'","")
+
+    return sentence
+
+"""
+    ARABIC
+"""
+
+def get_semantically_preprocessed_arabic_paragraph(paragraph):
+    preprocessed_paragraph = []
+    paragraph = paragraph.replace("\n", "").replace("   ", "").replace("  ", "")
+    punctuations = list(string.punctuation)
+    punctuations.remove('.')
+    for punctuation in punctuations:
+        paragraph.replace(punctuation, "")
+
+    for sentence in sent_tokenize(paragraph):
+        preprocessed_sentence = get_semantically_preprocessed_arabic_sentence(u""+sentence)
+        preprocessed_paragraph.append(preprocessed_sentence)
+    
+    return preprocessed_paragraph
+
+def get_semantically_preprocessed_arabic_sentence(sentence):
+
+    sentence = sentence.replace("/","").replace("\\","").replace('"',"").replace("''","").replace("`","").replace("-", " ")
+    
+    sentence = ''.join([i for i in sentence if not i.isdigit()])
+
+    stopset = list(string.punctuation)
+    sentence = " ".join([i for i in word_tokenize(sentence) if i not in stopset])
+
+    words = []
+    for word in word_tokenize(sentence):
+        lemma = ar_lemmer.lemmatize(word, get_wordnet_pos(word))
+        if lemma[1] != "stopword":
+            lem = ar_stemmer.stemWord(lemma[0])
+            words.append(lem)
+    sentence = " ".join(word for word in words)
+
+    sentence = sentence.replace('"',"").replace("''","").replace("`","").replace("-","").replace(".","").replace("'","")
+    
+    return sentence
+
+def get_syntactically_preprocessed_arabic_paragraph(paragraph):
+    paragraph = paragraph.replace("-", " ").replace("\n", " ").replace("   ", " ").replace("  ", " ")
+    preprocessed_paragraph = ""
+    for sentence in sent_tokenize(paragraph):
+        preprocessed_paragraph = preprocessed_paragraph + " " + get_syntactically_preprocessed_arabic_sentence(sentence)
+    return preprocessed_paragraph
+
+def get_syntactically_preprocessed_arabic_sentence(sentence):
+
+    sentence = sentence.replace("/","").replace("\\","").replace('"',"").replace("''","").replace("`","")
+    sentence = ''.join([i for i in sentence if not i.isdigit()])
+
+    stopset = list(string.punctuation)
+    sentence = " ".join([i for i in word_tokenize(sentence) if i not in stopset])
+
+    sentence = sentence.replace('"',"").replace("''","").replace("`","").replace("-","").replace(".","").replace("'","")
+
+    return sentence
+
+
+    

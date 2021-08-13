@@ -157,7 +157,7 @@ class databaseHandler:
         try:
             cursor = self.con.cursor()
             select_query = """  SELECT id
-                                FROM data WHERE lang='en' and body != "" """
+                                FROM data WHERE lang='fr' and body != "" """
             cursor.execute(select_query)
             select_result = cursor.fetchall()
 
@@ -184,8 +184,8 @@ class databaseHandler:
             for record in select_result:
                 body = record[0]
 
-            synt_proc_body = preprocess.get_syntactically_preprocessed_paragraph(body)
-            sem_proc_body_list = preprocess.get_semantically_preprocessed_paragraph(body)
+            synt_proc_body = preprocess.get_syntactically_preprocessed_french_paragraph(body)
+            sem_proc_body_list = preprocess.get_semantically_preprocessed_french_paragraph(body)
             sem_proc_body = "___".join(sentence for sentence in sem_proc_body_list)
 
             cursor = self.con.cursor()
