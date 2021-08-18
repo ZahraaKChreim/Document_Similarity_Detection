@@ -9,7 +9,7 @@ import numpy as np
 
 class GraphOfWords:
 
-    def __init__(self, sentences, window_size=2):
+    def __init__(self, sentences, window_size=4):
 
         self.window_size = window_size
         self.graph = nx.DiGraph()

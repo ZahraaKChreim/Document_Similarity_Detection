@@ -59,7 +59,7 @@ def get_URLs_of_query(driver: webdriver.Chrome, query):
 
 def extract_data(directory, file_name):
 
-    logfile = open("logfile.txt", "w")
+    logfile = open("logfile.txt", "w", encoding='utf-8')
 
     print("Extract Data Function Started... File:", file_name)
     # Get domain & lang of queries in current file
@@ -140,7 +140,7 @@ def extract_all_data(directory):
     print("Extract All Data Function Done")
 
 def error():
-    logfile = open("logfile.txt", "w")
+    logfile = open("logfile.txt", "w", encoding='utf-8')
     lang = 'en'
     domain = 'history'
     query = 'crusades'
@@ -280,7 +280,7 @@ def test():
 
 def calculate_similarity_and_export_to_csv(query):
 
-    print("Function calculate_similarity_and_export_to_csv Started...")
+    print("Function calculate_similarity_and_export_to_csv Started... (" + query + ")")
 
     columns = ['id1', 'id2', 'similarity']
     list_of_ids1 = []
@@ -319,24 +319,19 @@ def calculate_similarity_and_export_to_csv(query):
 
 if __name__ ==  '__main__':
 
-
     print("Dataset Creation Main Started...") 
 
     db = database_handler.databaseHandler()
     print("MySQL connection is opened")
 
-    #error()
-    extract_all_data("Queries Arabic/")
-    extract_all_data("Queries French/")  
+    # extract_all_data("Queries/")
+    # extract_all_data("Queries Arabic/")
+    # extract_all_data("Queries French/")  
 
-    # query = 'crusades'
-    # from time import time
-    # t = time()
-    # calculate_similarity_and_export_to_csv(query)
-    # x = time() - t
-    # print(x/60)
-    # query = 'benefits of anise'
-    # calculate_similarity_and_export_to_csv(query)
+    #queries = ['crusades', 'byzantines', 'pyramids', 'benefits of anise', 'operah winfrey']
+    queries = ['sept merveilles du monde', "Bombe d'Hiroshima", 'عوارض مرض السكري', 'الفينيقيين', 'انهيار الدولة العثمانية']
+    for query in queries:
+        calculate_similarity_and_export_to_csv(query)
 
     if db.con.is_connected():
         db.con.close()
@@ -344,6 +339,4 @@ if __name__ ==  '__main__':
 
     print("Dataset Creation Main Finished...")
     print("Dataset Successfully Created!!")
-
-    #test()
     

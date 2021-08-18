@@ -38,14 +38,14 @@ class databaseHandler:
 
         try:
             cursor = self.con.cursor()
-            select_query = """  SELECT *
-                                FROM data
-                                WHERE lang='en' and body != "" and data.query = '""" + query + """ '"""
+            select_query = 'SELECT * FROM data WHERE data.query = "'+ query + '"'
             cursor.execute(select_query)
 
             select_result = cursor.fetchall()
 
             results = []
+            if len(results) == 0:
+                print("no results for query:", query, "!")
             for record in select_result:
                 id = record[0]
                 lang = record[1]
@@ -157,7 +157,7 @@ class databaseHandler:
         try:
             cursor = self.con.cursor()
             select_query = """  SELECT id
-                                FROM data WHERE lang='fr' and body != "" """
+                                FROM data WHERE lang='ar' and body != "" and id > 11606 """
             cursor.execute(select_query)
             select_result = cursor.fetchall()
 
@@ -172,6 +172,7 @@ class databaseHandler:
 
     def preprocess_record_by_id(self, id):
 
+        lang = "ar"
         try:
             cursor = self.con.cursor()
             select_query = """ SELECT body
@@ -184,9 +185,20 @@ class databaseHandler:
             for record in select_result:
                 body = record[0]
 
-            synt_proc_body = preprocess.get_syntactically_preprocessed_french_paragraph(body)
-            sem_proc_body_list = preprocess.get_semantically_preprocessed_french_paragraph(body)
-            sem_proc_body = "___".join(sentence for sentence in sem_proc_body_list)
+            if lang == "en":
+                synt_proc_body = preprocess.get_syntactically_preprocessed_paragraph(body)
+                sem_proc_body_list = preprocess.get_semantically_preprocessed_paragraph(body)
+                sem_proc_body = "___".join(sentence for sentence in sem_proc_body_list)
+
+            elif lang == "fr":
+                synt_proc_body = preprocess.get_syntactically_preprocessed_french_paragraph(body)
+                sem_proc_body_list = preprocess.get_semantically_preprocessed_french_paragraph(body)
+                sem_proc_body = "___".join(sentence for sentence in sem_proc_body_list)
+
+            elif lang == "ar":
+                synt_proc_body = preprocess.get_syntactically_preprocessed_arabic_paragraph(body)
+                sem_proc_body_list = preprocess.get_semantically_preprocessed_arabic_paragraph(body)
+                sem_proc_body = "___".join(sentence for sentence in sem_proc_body_list)
 
             cursor = self.con.cursor()
             update_query = """ UPDATE data
@@ -281,3 +293,32 @@ if __name__ ==  '__main__':
     #correct_languages()
     preprocessing()
 
+    # from nltk.tokenize import word_tokenize
+    # from snowballstemmer import stemmer
+    # ar_stemmer = stemmer("arabic")
+    # from qalsadi import lemmatizer
+    # ar_lemmer = lemmatizer.Lemmatizer()
+    # db = databaseHandler()
+    # r = db.select_from_db_by_id(10014)
+    # sentence = r.get('body')
+    # # synt = preprocess.get_syntactically_preprocessed_arabic_paragraph(body) 
+    # # sem = preprocess.get_semantically_preprocessed_arabic_paragraph(body)
+    # sentence = sentence.replace("/","").replace("|", "").replace("\\","").replace('"',"").replace("''","").replace("`","").replace("-", " ").replace("–", " ").replace("؟", ".").replace(".....", ".").replace("....", ".").replace("...", ".").replace("..", ".")
+    
+    # sentence = ''.join([i for i in sentence if not i.isdigit()])
+    # import string
+    # stopset = list(string.punctuation)
+    # sentence = " ".join([i for i in word_tokenize(sentence) if i not in stopset])
+
+    # eng_letters = list(string.ascii_letters) + ['é', 'è', 'ê', 'à', 'ù', 'î' , 'ô', 'û', 'ç']
+    # for letter in eng_letters:
+    #     if sentence.__contains__(letter):
+    #         sentence = sentence.replace(letter, "")
+
+
+    # for word in word_tokenize(sentence):
+    #     lemma = ar_lemmer.lemmatize(word, preprocess.get_wordnet_pos(word))
+    #     print(lemma)
+    #     print(lemma[1])
+    # #print(body)
+    # db.con.close()

@@ -165,7 +165,7 @@ def get_syntactically_preprocessed_french_sentence(sentence):
 
 def get_semantically_preprocessed_arabic_paragraph(paragraph):
     preprocessed_paragraph = []
-    paragraph = paragraph.replace("\n", "").replace("   ", "").replace("  ", "")
+    paragraph = paragraph.replace("\n", "").replace("   ", "").replace("  ", "").replace("|", "").replace(".....", ".").replace("....", ".").replace("...", ".").replace("،", " ").replace(",", " ")
     punctuations = list(string.punctuation)
     punctuations.remove('.')
     for punctuation in punctuations:
@@ -179,27 +179,37 @@ def get_semantically_preprocessed_arabic_paragraph(paragraph):
 
 def get_semantically_preprocessed_arabic_sentence(sentence):
 
-    sentence = sentence.replace("/","").replace("\\","").replace('"',"").replace("''","").replace("`","").replace("-", " ")
+    sentence = sentence.replace("/","").replace("|", "").replace("\\","").replace('"',"").replace("''","").replace("`","").replace("'","").replace("-", " ").replace("–", " ").replace("؟", " ").replace(".....", " ").replace("....", " ").replace("...", " ").replace("..", " ").replace(".", " ").replace("~", " ")
     
     sentence = ''.join([i for i in sentence if not i.isdigit()])
 
     stopset = list(string.punctuation)
     sentence = " ".join([i for i in word_tokenize(sentence) if i not in stopset])
+    for letter in stopset:
+        if sentence.__contains__(letter):
+            sentence = sentence.replace(letter, " ")
+
+    eng_letters = list(string.ascii_letters) + ['é', 'è', 'ê', 'à', 'ù', 'î' , 'ô', 'û', 'ç']
+    for letter in eng_letters:
+        if sentence.__contains__(letter):
+            sentence = sentence.replace(letter, "")
 
     words = []
     for word in word_tokenize(sentence):
         lemma = ar_lemmer.lemmatize(word, get_wordnet_pos(word))
+        # print(lemma)
+        # print(lemma[1])
         if lemma[1] != "stopword":
             lem = ar_stemmer.stemWord(lemma[0])
             words.append(lem)
     sentence = " ".join(word for word in words)
 
-    sentence = sentence.replace('"',"").replace("''","").replace("`","").replace("-","").replace(".","").replace("'","")
+    sentence = sentence.replace('  '," ").replace('"',"").replace("''","").replace("`","").replace("-","").replace(".","").replace("'","")
     
     return sentence
 
 def get_syntactically_preprocessed_arabic_paragraph(paragraph):
-    paragraph = paragraph.replace("-", " ").replace("\n", " ").replace("   ", " ").replace("  ", " ")
+    paragraph = paragraph.replace("-", " ").replace("\n", " ").replace("|", "").replace("   ", " ").replace("  ", " ").replace("؟", ".").replace(".....", ".").replace("....", ".").replace("...", ".").replace("..", ".")
     preprocessed_paragraph = ""
     for sentence in sent_tokenize(paragraph):
         preprocessed_paragraph = preprocessed_paragraph + " " + get_syntactically_preprocessed_arabic_sentence(sentence)
@@ -207,11 +217,17 @@ def get_syntactically_preprocessed_arabic_paragraph(paragraph):
 
 def get_syntactically_preprocessed_arabic_sentence(sentence):
 
-    sentence = sentence.replace("/","").replace("\\","").replace('"',"").replace("''","").replace("`","")
+    sentence = sentence.replace("/","").replace("|", "").replace("\\","").replace('"',"").replace("''","").replace("`","").replace("-", " ").replace("–", " ").replace("؟", ".").replace(".....", ".").replace("....", ".").replace("...", ".").replace("..", ".")
     sentence = ''.join([i for i in sentence if not i.isdigit()])
 
     stopset = list(string.punctuation)
     sentence = " ".join([i for i in word_tokenize(sentence) if i not in stopset])
+
+    eng_letters = list(string.ascii_letters) + ['é', 'è', 'ê', 'à', 'ù', 'î' , 'ô', 'û', 'ç']
+    for letter in eng_letters:
+        if sentence.__contains__(letter):
+            sentence = sentence.replace(letter, "")
+
 
     sentence = sentence.replace('"',"").replace("''","").replace("`","").replace("-","").replace(".","").replace("'","")
 
