@@ -1,6 +1,7 @@
 import networkx as nx
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 
 class Graph_of_pages:
 
@@ -46,7 +47,22 @@ def get_final_clusters(filename, threshold):
     individual_pages = g.individual_pages
     for individual_page in individual_pages:
         clusters.append([individual_page])
-    return clusters
+    
+    reduction_percentage = get_final_results(clusters)
+    return format(reduction_percentage,".2f")
+    #return clusters
+
+def get_final_results(clusters):
+    reduced_pages = 0
+    initial_number = 0
+
+    for cluster in clusters:
+        initial_number += len(cluster)
+        reduced_pages += (len(cluster) -1 )
+    
+    #new_nb_of_pages = initial_number - reduced_pages
+    reduction_percentage = ( reduced_pages / initial_number ) * 100
+    return reduction_percentage
 
 def main(filename, threshold):
 
@@ -65,15 +81,76 @@ def main(filename, threshold):
     print("new_nb_of_pages", new_nb_of_pages)
     print("--------------------------------------------------------")
 
+def cluster_data():
+
+    print("Function cluster_data Started... ")
+    #list_of_thresholds = [0.7, 0.725, 0.75, 0.775, 0.8, 0.825, 0.85, 0.875, 0.9]
+
+    list_of_queries = []
+
+    reduction_for_threshold_7 = []
+    reduction_for_threshold_725 = []
+    reduction_for_threshold_75 = []
+    reduction_for_threshold_775 = []
+    reduction_for_threshold_8 = []
+    reduction_for_threshold_825 = []
+    reduction_for_threshold_85 = []
+    reduction_for_threshold_875 = []
+    reduction_for_threshold_9 = []
+
+    columns = ['query', '0.7', '0.725', '0.75', '0.775', '0.8', '0.825', '0.85', '0.875', '0.9']
+
+    directory = "CSVs"
+    data_files = os.listdir(directory)
+
+    i = 1
+    for file in data_files:
+
+        filename = directory + '/' + file
+
+        query = file.split('_')[0]
+        list_of_queries.append(query)
+        print("File", i, "of 150 -", query)
+        i += 1
+
+        reduction_for_threshold_7.append(get_final_clusters(filename, 0.7))
+        reduction_for_threshold_725.append(get_final_clusters(filename, 0.725))
+        reduction_for_threshold_75.append(get_final_clusters(filename, 0.75))
+        reduction_for_threshold_775.append(get_final_clusters(filename, 0.775))
+        reduction_for_threshold_8.append(get_final_clusters(filename, 0.8))
+        reduction_for_threshold_825.append(get_final_clusters(filename, 0.825))
+        reduction_for_threshold_85.append(get_final_clusters(filename, 0.85))
+        reduction_for_threshold_875.append(get_final_clusters(filename, 0.875))
+        reduction_for_threshold_9.append(get_final_clusters(filename, 0.9))
+
+    data = {
+        'query':list_of_queries,
+        '0.7': reduction_for_threshold_7,
+        '0.725': reduction_for_threshold_725, 
+        '0.75': reduction_for_threshold_75, 
+        '0.775': reduction_for_threshold_775, 
+        '0.8': reduction_for_threshold_8, 
+        '0.825': reduction_for_threshold_825, 
+        '0.85': reduction_for_threshold_85, 
+        '0.875': reduction_for_threshold_875, 
+        '0.9': reduction_for_threshold_9
+    }
+
+    df = pd.DataFrame(data, columns= columns)
+    file_name = "results.csv"
+    file_name = r''+file_name
+    df.to_csv (file_name, index = True, header=True, encoding='utf8')
+
+    print("Function cluster_data Done")
+
 if __name__ ==  '__main__':
 
-    threshold = 0.75
-    directory = "CSVs"
-    import os
-    files = os.listdir(directory)
-    for file in files:
-        filename = directory + '/' + file
-        main(filename, threshold)
-    
+    cluster_data()
 
-    
+    # threshold = 0.75
+    # directory = "CSVs"
+    # import os
+    # files = os.listdir(directory)
+    # for file in files:
+    #     filename = directory + '/' + file
+    #     main(filename, threshold)

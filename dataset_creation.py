@@ -278,7 +278,7 @@ def test():
         print("############################")
 
 
-def calculate_similarity_and_export_to_csv(query):
+def calculate_similarity_and_export_to_csv(query, query_nb, total_query_nb):
 
     print("Function calculate_similarity_and_export_to_csv Started... (" + query + ")")
 
@@ -295,7 +295,7 @@ def calculate_similarity_and_export_to_csv(query):
         record1 = records_of_query[i]
         r2 = r1+1
         for record2 in records_of_query[i+1:]:
-            print (query, ':', r1, '-', r2, '(', total, ')')
+            print (query, query_nb, 'of', total_query_nb, ':', r1, '-', r2, '(', total, ')')
             r2 += 1
 
             final_similarity_score = getSimilarity.get_similarity_record1_record2(record1, record2)
@@ -329,9 +329,15 @@ if __name__ ==  '__main__':
     # extract_all_data("Queries French/")  
 
     #queries = ['crusades', 'byzantines', 'pyramids', 'benefits of anise', 'operah winfrey']
-    queries = ['sept merveilles du monde', "Bombe d'Hiroshima", 'عوارض مرض السكري', 'الفينيقيين', 'انهيار الدولة العثمانية']
+    #queries = ['sept merveilles du monde', "Bombe d'Hiroshima", 'عوارض مرض السكري', 'الفينيقيين', 'انهيار الدولة العثمانية']
+    
+    queries = db.select_all_queries_from_db()
+    total = len(queries)
+    i = 1
     for query in queries:
-        calculate_similarity_and_export_to_csv(query)
+        calculate_similarity_and_export_to_csv(query, i, total)
+        i += 1
+
 
     if db.con.is_connected():
         db.con.close()
@@ -339,4 +345,5 @@ if __name__ ==  '__main__':
 
     print("Dataset Creation Main Finished...")
     print("Dataset Successfully Created!!")
+
     

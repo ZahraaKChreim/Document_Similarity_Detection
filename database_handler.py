@@ -38,14 +38,16 @@ class databaseHandler:
 
         try:
             cursor = self.con.cursor()
-            select_query = 'SELECT * FROM data WHERE data.query = "'+ query + '"'
+            select_query = "SELECT * FROM data WHERE query ='" + query + "'"
+            #print(select_query)
             cursor.execute(select_query)
 
             select_result = cursor.fetchall()
 
             results = []
-            if len(results) == 0:
-                print("no results for query:", query, "!")
+            if len(select_result) == 0:
+                print("no results for query", query)
+                
             for record in select_result:
                 id = record[0]
                 lang = record[1]
