@@ -18,6 +18,9 @@ class Graph_of_pages:
                 self.all_pages.append(int(row[1]['id1']))
             if row[1]['similarity'] >= threshold:
                 edges.append((int(row[1]['id1']), int(row[1]['id2']), row[1]['similarity']))
+        last_index = len(data['id2']) - 1
+        if data['id2'][last_index] not in self.all_pages:
+            self.all_pages.append(data['id2'][last_index])
         self.graph.add_weighted_edges_from(edges)
         for page in self.all_pages:
             if page not in self.graph:
@@ -51,6 +54,15 @@ def get_final_clusters(filename, threshold):
     reduction_percentage = get_final_results(clusters)
     return format(reduction_percentage,".2f")
     #return clusters
+
+def graph_clustering(filename, threshold):
+    g = Graph_of_pages(filename, threshold)
+    clusters = g.get_clusters()
+    individual_pages = g.individual_pages
+    for individual_page in individual_pages:
+        clusters.append([individual_page])
+    return clusters
+
 
 def get_final_results(clusters):
     reduced_pages = 0
