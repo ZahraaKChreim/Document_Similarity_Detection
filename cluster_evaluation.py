@@ -12,7 +12,7 @@ from sklearn.metrics import homogeneity_score, completeness_score, v_measure_sco
 id1s = []
 id2s = []
 
-threshold = 0.8
+threshold = 0.9
 distance_th = 1 - threshold
 
 def read_data(filename):
@@ -181,7 +181,6 @@ def main():
 
     # print(normalize(contingency_matrix(labels_pred=agglomerative_clusters_labels, labels_true=graph_clusters_labels), norm='l1', axis=1))
     # print(normalize(contingency_matrix(labels_pred=graph_clusters_labels, labels_true=agglomerative_clusters_labels), norm='l1', axis=1))
-
     
     
 from sklearn.metrics.cluster import contingency_matrix

@@ -93,7 +93,7 @@ def main(filename, threshold):
     print("new_nb_of_pages", new_nb_of_pages)
     print("--------------------------------------------------------")
 
-def cluster_data():
+def general_cluster_data():
 
     print("Function cluster_data Started... ")
     #list_of_thresholds = [0.7, 0.725, 0.75, 0.775, 0.8, 0.825, 0.85, 0.875, 0.9]
@@ -145,6 +145,71 @@ def cluster_data():
         '0.825': reduction_for_threshold_825, 
         '0.85': reduction_for_threshold_85, 
         '0.875': reduction_for_threshold_875, 
+        '0.9': reduction_for_threshold_9
+    }
+
+    df = pd.DataFrame(data, columns= columns)
+    file_name = "general_results.csv"
+    file_name = r''+file_name
+    df.to_csv (file_name, index = True, header=True, encoding='utf8')
+
+    print("Function cluster_data Done")
+
+def cluster_data():
+
+    print("Function cluster_data Started... ")
+    #list_of_thresholds = [0.6, 0.63, 0.67, 0.7, 0.71, 0.74, 0.77, 0.8, 0.87, 0.9]
+
+    list_of_queries = []
+
+    reduction_for_threshold_6 = []
+    reduction_for_threshold_63 = []
+    reduction_for_threshold_67 = []
+    reduction_for_threshold_7 = []
+    reduction_for_threshold_71 = []
+    reduction_for_threshold_74 = []
+    reduction_for_threshold_77 = []
+    reduction_for_threshold_8 = []
+    reduction_for_threshold_87 = []
+    reduction_for_threshold_9 = []
+
+    columns = ['query', '0.6', '0.63', '0.67', '0.7', '0.71', '0.74', '0.77', '0.8', '0.87', '0.9']
+
+    directory = "CSVs"
+    data_files = os.listdir(directory)
+
+    i = 1
+    for file in data_files:
+
+        filename = directory + '/' + file
+
+        query = file.split('_')[0]
+        list_of_queries.append(query)
+        print("File", i, "of 150 -", query)
+        i += 1
+        
+        reduction_for_threshold_6.append(get_final_clusters(filename, 0.6))
+        reduction_for_threshold_63.append(get_final_clusters(filename, 0.63))
+        reduction_for_threshold_67.append(get_final_clusters(filename, 0.67))
+        reduction_for_threshold_7.append(get_final_clusters(filename, 0.7))
+        reduction_for_threshold_71.append(get_final_clusters(filename, 0.71))
+        reduction_for_threshold_74.append(get_final_clusters(filename, 0.74))
+        reduction_for_threshold_77.append(get_final_clusters(filename, 0.77))
+        reduction_for_threshold_8.append(get_final_clusters(filename, 0.8))
+        reduction_for_threshold_87.append(get_final_clusters(filename, 0.87))
+        reduction_for_threshold_9.append(get_final_clusters(filename, 0.9))
+
+    data = {
+        'query':list_of_queries,
+        '0.6': reduction_for_threshold_6,
+        '0.63': reduction_for_threshold_63, 
+        '0.67': reduction_for_threshold_67, 
+        '0.7': reduction_for_threshold_7, 
+        '0.71': reduction_for_threshold_71, 
+        '0.74': reduction_for_threshold_74, 
+        '0.77': reduction_for_threshold_77, 
+        '0.8': reduction_for_threshold_8, 
+        '0.87': reduction_for_threshold_87, 
         '0.9': reduction_for_threshold_9
     }
 
