@@ -55,6 +55,27 @@ def get_final_clusters(filename, threshold):
     return format(reduction_percentage,".2f")
     #return clusters
 
+def get_before_after(filename, threshold):
+    g = Graph_of_pages(filename, threshold)
+    clusters = g.get_clusters()
+    individual_pages = g.individual_pages
+    for individual_page in individual_pages:
+        clusters.append([individual_page])
+    
+    before, after = get_final_results_before_after(clusters)
+    return before, after
+
+def get_final_results_before_after(clusters):
+    reduced_pages = 0
+    initial_number = 0
+
+    for cluster in clusters:
+        initial_number += len(cluster)
+        reduced_pages += (len(cluster) -1 )
+    
+    new_nb_of_pages = initial_number - reduced_pages
+    return initial_number, new_nb_of_pages
+
 def graph_clustering(filename, threshold):
     g = Graph_of_pages(filename, threshold)
     clusters = g.get_clusters()
@@ -220,14 +241,50 @@ def cluster_data():
 
     print("Function cluster_data Done")
 
+
+def cluster_data_before_after(threshold):
+
+    print("Function cluster_data Started... ")
+
+    list_of_queries = []
+
+    numbers_before = []
+    numbers_after = []
+
+    columns = ['query', 'before', 'after']
+
+    directory = "CSVs"
+    data_files = os.listdir(directory)
+
+    i = 1
+    for file in data_files:
+
+        filename = directory + '/' + file
+
+        query = file.split('_')[0]
+        list_of_queries.append(query)
+        print("File", i, "of 150 -", query)
+        i += 1
+
+        before, after = get_before_after(filename, threshold)
+        numbers_before.append(before)
+        numbers_after.append(after)
+
+    data = {
+        'query':list_of_queries,
+        'before': numbers_before,
+        'after': numbers_after
+    }
+
+    df = pd.DataFrame(data, columns= columns)
+    file_name = "before_after_results.csv"
+    file_name = r'' + str(threshold) + "_" + file_name
+    df.to_csv (file_name, index = True, header=True, encoding='utf8')
+
+    print("Function cluster_data Done")
+
+
 if __name__ ==  '__main__':
 
-    cluster_data()
-
-    # threshold = 0.75
-    # directory = "CSVs"
-    # import os
-    # files = os.listdir(directory)
-    # for file in files:
-    #     filename = directory + '/' + file
-    #     main(filename, threshold)
+    cluster_data_before_after(0.67)
+    cluster_data_before_after(0.7)

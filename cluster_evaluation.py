@@ -12,7 +12,7 @@ from sklearn.metrics import homogeneity_score, completeness_score, v_measure_sco
 id1s = []
 id2s = []
 
-threshold = 0.9
+threshold = 0.73
 distance_th = 1 - threshold
 
 def read_data(filename):
@@ -151,33 +151,33 @@ def main():
     print('Graph Davies Bouldin Score: %.4f' % score_AGclustering_d)
 
 
-    # print("Compare Agglomerative and Graph Clustering:")
-    # print("adjusted_rand_score", adjusted_rand_score(agglomerative_clusters_labels, graph_clusters_labels))
-    # print("rand_score", rand_score(agglomerative_clusters_labels, graph_clusters_labels))
+    print("Compare Agglomerative and Graph Clustering:")
+    print("adjusted_rand_score", adjusted_rand_score(agglomerative_clusters_labels, graph_clusters_labels))
+    print("rand_score", rand_score(agglomerative_clusters_labels, graph_clusters_labels))
 
 
-    # """
-    # adjusted_rand_score
-    # Given the knowledge of the ground truth class assignments labels_true and our clustering algorithm assignments of
-    # the same samples labels_pred, the (adjusted or unadjusted) Rand index is a function that measures the similarity 
-    # of the two assignments, ignoring permutations
-    # """ 
-    # print("adjusted_mutual_info_score", adjusted_mutual_info_score(agglomerative_clusters_labels, graph_clusters_labels))
-    # print("normalized_mutual_info_score", normalized_mutual_info_score(agglomerative_clusters_labels, graph_clusters_labels))
-    # print("mutual_info_score", mutual_info_score(agglomerative_clusters_labels, graph_clusters_labels))
+    """
+    adjusted_rand_score
+    Given the knowledge of the ground truth class assignments labels_true and our clustering algorithm assignments of
+    the same samples labels_pred, the (adjusted or unadjusted) Rand index is a function that measures the similarity 
+    of the two assignments, ignoring permutations
+    """ 
+    print("adjusted_mutual_info_score", adjusted_mutual_info_score(agglomerative_clusters_labels, graph_clusters_labels))
+    print("normalized_mutual_info_score", normalized_mutual_info_score(agglomerative_clusters_labels, graph_clusters_labels))
+    print("mutual_info_score", mutual_info_score(agglomerative_clusters_labels, graph_clusters_labels))
 
-    # """
-    # homogeneity: each cluster contains only members of a single class.
-    # completeness: all members of a given class are assigned to the same cluster.
-    # Their harmonic mean is called V-measure
-    # """
-    # print("homogeneity_score", homogeneity_score(agglomerative_clusters_labels, graph_clusters_labels))
-    # print("completeness_score", completeness_score(agglomerative_clusters_labels, graph_clusters_labels))
-    # print("v_measure_score", v_measure_score(agglomerative_clusters_labels, graph_clusters_labels))
+    """
+    homogeneity: each cluster contains only members of a single class.
+    completeness: all members of a given class are assigned to the same cluster.
+    Their harmonic mean is called V-measure
+    """
+    print("homogeneity_score", homogeneity_score(agglomerative_clusters_labels, graph_clusters_labels))
+    print("completeness_score", completeness_score(agglomerative_clusters_labels, graph_clusters_labels))
+    print("v_measure_score", v_measure_score(agglomerative_clusters_labels, graph_clusters_labels))
 
-    # print("fowlkes_mallows_score", fowlkes_mallows_score(agglomerative_clusters_labels, graph_clusters_labels))
+    print("fowlkes_mallows_score", fowlkes_mallows_score(agglomerative_clusters_labels, graph_clusters_labels))
 
-    # print("f1_hungarian", f1_hungarian(f_matrix(graph_clusters_labels, agglomerative_clusters_labels)))
+    print("f1_hungarian", f1_hungarian(f_matrix(graph_clusters_labels, agglomerative_clusters_labels)))
 
     # print(normalize(contingency_matrix(labels_pred=agglomerative_clusters_labels, labels_true=graph_clusters_labels), norm='l1', axis=1))
     # print(normalize(contingency_matrix(labels_pred=graph_clusters_labels, labels_true=agglomerative_clusters_labels), norm='l1', axis=1))
