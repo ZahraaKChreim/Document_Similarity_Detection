@@ -250,8 +250,9 @@ def cluster_data_before_after(threshold):
 
     numbers_before = []
     numbers_after = []
+    reduction = []
 
-    columns = ['query', 'before', 'after']
+    columns = ['query', 'before', 'after', 'reduction']
 
     directory = "CSVs"
     data_files = os.listdir(directory)
@@ -269,11 +270,14 @@ def cluster_data_before_after(threshold):
         before, after = get_before_after(filename, threshold)
         numbers_before.append(before)
         numbers_after.append(after)
+        reduced_pages = before - after
+        reduction.append(( reduced_pages / before ) * 100)
 
     data = {
         'query':list_of_queries,
         'before': numbers_before,
-        'after': numbers_after
+        'after': numbers_after,
+        'reduction' : reduction
     }
 
     df = pd.DataFrame(data, columns= columns)

@@ -1,151 +1,151 @@
-,query,before,after
-0,10 richest people in the world,86,25
-1,aerport,94,64
-2,airplane crashes,92,40
-3,airplane,93,69
-4,algeria independence,90,24
-5,android,90,56
-6,arabic text in mysql,91,65
-7,basketball,95,76
-8,Beirut port explosion,94,35
-9,benefits of anise,98,18
-10,big data,93,26
-11,biggest family in the world,94,30
-12,bill gates,92,39
-13,blur detection techniques,62,37
-14,Bombe de Hiroshima,99,30
-15,brain nerves,94,29
-16,byzantines,92,52
-17,C++,92,69
-18,Causes de maux de tête,98,24
-19,Causes of World War two,91,21
-20,charlie and dixie d amelio,87,36
-21,climate change risk,88,17
-22,compress pdf file,95,35
-23,corona pandemic,92,35
-24,Covid 19 vaccine,99,41
-25,covid-19,100,47
-26,crusades,88,28
-27,cython,93,31
-28,data mining applied for risk management,80,36
-29,data science,90,35
-30,definition of each religion,83,23
-31,django,92,40
-32,doctor,95,73
-33,douleurs dentaires,100,27
-34,Economic crisis in Lebanon,94,24
-35,egyptian independence,88,26
-36,egyptian revolution,89,24
-37,eiffle tower,94,34
-38,Einstein,88,40
-39,eye surgery,96,18
-40,finance,95,64
-41,first person on the moon,93,19
-42,First World War,95,22
-43,football,99,72
-44,guerre américaine japonaise,98,30
-45,Headache,98,20
-46,histoire de la suisse,95,37
-47,History of Buddhism in India,89,20
-48,Hitler,85,25
-49,how many leters should we drink in a day,99,12
-50,how to make money online,93,23
-51,install eclipse windows 10,91,29
-52,internet of things,94,24
-53,inventor of electricity,96,21
-54,iphone 12 pro max,88,46
-55,istanbul,94,44
-56,italian pasta recipes,94,42
-57,java,93,70
-58,joelle mardinian fashion program,93,53
-59,l histoire de la France,99,43
-60,L indépendance du Liban,97,30
-61,L Internet des objets,97,18
-62,la grippe,99,32
-63,La naissance de la Terre,99,47
-64,la science des champignons,97,52
-65,lac de zurich,98,51
-66,laptop cannot connect to wifi,92,35
-67,lasik eye surgery,97,10
-68,le cycle du carbone,97,46
-69,learn english at home,96,34
-70,learn french,93,50
-71,lebanese revolution 2019,94,24
-72,lebanon independence,90,35
-73,live in canada,95,41
-74,lumière pulsée,99,53
-75,machine learning,93,40
-76,make an omelette,98,37
-77,mal au ventre,99,29
-78,medicine,95,81
-79,Napoleon,90,43
-80,narin beauty net worth,92,42
-81,Nefertiti,94,60
-82,new president of the us,93,25
-83,number of muscles in human body,85,29
-84,nurse,95,80
-85,nutrition,98,59
-86,operah winfrey,96,38
-87,Ottoman Sultanate,96,28
-88,patient,92,72
-89,prediction algorithms,91,35
-90,predictive analytics,99,33
-91,problème google et oracle,100,41
-92,programming,97,69
-93,pyramids,93,38
-94,python,94,72
-95,qui est Maradona,97,23
-96,Reasons for children crying,56,16
-97,regime keto,99,28
-98,reset wifi password,93,47
-99,school,97,89
-100,Science de l espace,99,54
-101,sensors data compression techniques,74,38
-102,sept merveilles du monde,99,44
-103,Seven wonders of the world,91,25
-104,Shakespeare,96,51
-105,skin care,90,79
-106,software engineer,92,56
-107,steve harvey,97,67
-108,stomach pain,96,15
-109,stone ages,87,39
-110,symptoms of depression,96,15
-111,Symptômes du diabète,97,22
-112,tallest man in the world,93,37
-113,The highest peak in the world,93,26
-114,the mona lisa,96,28
-115,The shortest person in the world,96,28
-116,the story of galata tower,95,27
-117,Théorie de la relativité,98,44
-118,toulouse incendie 1463,100,55
-119,tourism in rome,93,31
-120,turkey,96,62
-121,vie du Jésus,97,47
-122,web,97,80
-123,what does NASA do,95,32
-124,worlds best universities,97,33
-125,worlds biggest country,96,34
-126,أسباب الصداع,100,49
-127,استقلال لبنان من الانتداب الفرنسي,97,70
-128,البيانات الضخمة,97,45
-129,الحرب الصينية الامريكية,96,50
-130,الفينيقيين,99,80
-131,النظرية النسبية,97,79
-132,انترنت الاشياء,99,66
-133,انهيار الدولة العثمانية,97,61
-134,تأثير الحرائق على التربة و البيئة,100,69
-135,حياة النبي عيسى,97,50
-136,حياة كريستيانو رونالدو,95,63
-137,دورة الماء,95,64
-138,شكل الكرة الارضية,95,65
-139,طبقة الاوزون,98,61
-140,عالم الفضاء,95,76
-141,عدد المجرات واسمائها,89,68
-142,علاج ألم الاسنان,100,49
-143,علاج الانفلونزا,100,72
-144,عوارض مرض السكري,100,44
-145,قنبلة هيروشيما,100,67
-146,كورونا فيروس,99,72
-147,مشكلة جوجل و اوراكل,99,93
-148,موسم جمع الصنوبر,97,35
-149,نظام الكيتو,98,40
+,query,before,after,reduction
+0,10 richest people in the world,86,25,70.93023255813954
+1,aerport,94,64,31.914893617021278
+2,airplane crashes,92,40,56.52173913043478
+3,airplane,93,69,25.806451612903224
+4,algeria independence,90,24,73.33333333333333
+5,android,90,56,37.77777777777778
+6,arabic text in mysql,91,65,28.57142857142857
+7,basketball,95,76,20.0
+8,Beirut port explosion,94,35,62.76595744680851
+9,benefits of anise,98,18,81.63265306122449
+10,big data,93,26,72.04301075268818
+11,biggest family in the world,94,30,68.08510638297872
+12,bill gates,92,39,57.608695652173914
+13,blur detection techniques,62,37,40.32258064516129
+14,Bombe de Hiroshima,99,30,69.6969696969697
+15,brain nerves,94,29,69.14893617021278
+16,byzantines,92,52,43.47826086956522
+17,C++,92,69,25.0
+18,Causes de maux de tête,98,24,75.51020408163265
+19,Causes of World War two,91,21,76.92307692307693
+20,charlie and dixie d amelio,87,36,58.620689655172406
+21,climate change risk,88,17,80.68181818181817
+22,compress pdf file,95,35,63.1578947368421
+23,corona pandemic,92,35,61.95652173913043
+24,Covid 19 vaccine,99,41,58.58585858585859
+25,covid-19,100,47,53.0
+26,crusades,88,28,68.18181818181817
+27,cython,93,31,66.66666666666666
+28,data mining applied for risk management,80,36,55.00000000000001
+29,data science,90,35,61.111111111111114
+30,definition of each religion,83,23,72.28915662650603
+31,django,92,40,56.52173913043478
+32,doctor,95,73,23.157894736842106
+33,douleurs dentaires,100,27,73.0
+34,Economic crisis in Lebanon,94,24,74.46808510638297
+35,egyptian independence,88,26,70.45454545454545
+36,egyptian revolution,89,24,73.03370786516854
+37,eiffle tower,94,34,63.829787234042556
+38,Einstein,88,40,54.54545454545454
+39,eye surgery,96,18,81.25
+40,finance,95,64,32.631578947368425
+41,first person on the moon,93,19,79.56989247311827
+42,First World War,95,22,76.84210526315789
+43,football,99,72,27.27272727272727
+44,guerre américaine japonaise,98,30,69.38775510204081
+45,Headache,98,20,79.59183673469387
+46,histoire de la suisse,95,37,61.05263157894737
+47,History of Buddhism in India,89,20,77.52808988764045
+48,Hitler,85,25,70.58823529411765
+49,how many leters should we drink in a day,99,12,87.87878787878788
+50,how to make money online,93,23,75.26881720430107
+51,install eclipse windows 10,91,29,68.13186813186813
+52,internet of things,94,24,74.46808510638297
+53,inventor of electricity,96,21,78.125
+54,iphone 12 pro max,88,46,47.72727272727273
+55,istanbul,94,44,53.191489361702125
+56,italian pasta recipes,94,42,55.319148936170215
+57,java,93,70,24.731182795698924
+58,joelle mardinian fashion program,93,53,43.01075268817204
+59,l histoire de la France,99,43,56.56565656565656
+60,L indépendance du Liban,97,30,69.0721649484536
+61,L Internet des objets,97,18,81.44329896907216
+62,la grippe,99,32,67.67676767676768
+63,La naissance de la Terre,99,47,52.52525252525253
+64,la science des champignons,97,52,46.391752577319586
+65,lac de zurich,98,51,47.95918367346938
+66,laptop cannot connect to wifi,92,35,61.95652173913043
+67,lasik eye surgery,97,10,89.69072164948454
+68,le cycle du carbone,97,46,52.57731958762887
+69,learn english at home,96,34,64.58333333333334
+70,learn french,93,50,46.236559139784944
+71,lebanese revolution 2019,94,24,74.46808510638297
+72,lebanon independence,90,35,61.111111111111114
+73,live in canada,95,41,56.84210526315789
+74,lumière pulsée,99,53,46.464646464646464
+75,machine learning,93,40,56.98924731182796
+76,make an omelette,98,37,62.244897959183675
+77,mal au ventre,99,29,70.70707070707071
+78,medicine,95,81,14.736842105263156
+79,Napoleon,90,43,52.22222222222223
+80,narin beauty net worth,92,42,54.347826086956516
+81,Nefertiti,94,60,36.17021276595745
+82,new president of the us,93,25,73.11827956989248
+83,number of muscles in human body,85,29,65.88235294117646
+84,nurse,95,80,15.789473684210526
+85,nutrition,98,59,39.795918367346935
+86,operah winfrey,96,38,60.416666666666664
+87,Ottoman Sultanate,96,28,70.83333333333334
+88,patient,92,72,21.73913043478261
+89,prediction algorithms,91,35,61.53846153846154
+90,predictive analytics,99,33,66.66666666666666
+91,problème google et oracle,100,41,59.0
+92,programming,97,69,28.865979381443296
+93,pyramids,93,38,59.13978494623656
+94,python,94,72,23.404255319148938
+95,qui est Maradona,97,23,76.28865979381443
+96,Reasons for children crying,56,16,71.42857142857143
+97,regime keto,99,28,71.71717171717171
+98,reset wifi password,93,47,49.46236559139785
+99,school,97,89,8.24742268041237
+100,Science de l espace,99,54,45.45454545454545
+101,sensors data compression techniques,74,38,48.64864864864865
+102,sept merveilles du monde,99,44,55.55555555555556
+103,Seven wonders of the world,91,25,72.52747252747253
+104,Shakespeare,96,51,46.875
+105,skin care,90,79,12.222222222222221
+106,software engineer,92,56,39.130434782608695
+107,steve harvey,97,67,30.927835051546392
+108,stomach pain,96,15,84.375
+109,stone ages,87,39,55.172413793103445
+110,symptoms of depression,96,15,84.375
+111,Symptômes du diabète,97,22,77.31958762886599
+112,tallest man in the world,93,37,60.215053763440864
+113,The highest peak in the world,93,26,72.04301075268818
+114,the mona lisa,96,28,70.83333333333334
+115,The shortest person in the world,96,28,70.83333333333334
+116,the story of galata tower,95,27,71.57894736842105
+117,Théorie de la relativité,98,44,55.10204081632652
+118,toulouse incendie 1463,100,55,45.0
+119,tourism in rome,93,31,66.66666666666666
+120,turkey,96,62,35.41666666666667
+121,vie du Jésus,97,47,51.546391752577314
+122,web,97,80,17.525773195876287
+123,what does NASA do,95,32,66.3157894736842
+124,worlds best universities,97,33,65.97938144329896
+125,worlds biggest country,96,34,64.58333333333334
+126,أسباب الصداع,100,49,51.0
+127,استقلال لبنان من الانتداب الفرنسي,97,70,27.835051546391753
+128,البيانات الضخمة,97,45,53.608247422680414
+129,الحرب الصينية الامريكية,96,50,47.91666666666667
+130,الفينيقيين,99,80,19.19191919191919
+131,النظرية النسبية,97,79,18.556701030927837
+132,انترنت الاشياء,99,66,33.33333333333333
+133,انهيار الدولة العثمانية,97,61,37.11340206185567
+134,تأثير الحرائق على التربة و البيئة,100,69,31.0
+135,حياة النبي عيسى,97,50,48.45360824742268
+136,حياة كريستيانو رونالدو,95,63,33.68421052631579
+137,دورة الماء,95,64,32.631578947368425
+138,شكل الكرة الارضية,95,65,31.57894736842105
+139,طبقة الاوزون,98,61,37.755102040816325
+140,عالم الفضاء,95,76,20.0
+141,عدد المجرات واسمائها,89,68,23.595505617977526
+142,علاج ألم الاسنان,100,49,51.0
+143,علاج الانفلونزا,100,72,28.000000000000004
+144,عوارض مرض السكري,100,44,56.00000000000001
+145,قنبلة هيروشيما,100,67,33.0
+146,كورونا فيروس,99,72,27.27272727272727
+147,مشكلة جوجل و اوراكل,99,93,6.0606060606060606
+148,موسم جمع الصنوبر,97,35,63.91752577319587
+149,نظام الكيتو,98,40,59.183673469387756
