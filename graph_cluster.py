@@ -290,5 +290,5 @@ def cluster_data_before_after(threshold):
 
 if __name__ ==  '__main__':
 
-    cluster_data_before_after(0.67)
-    cluster_data_before_after(0.7)
+    cluster_data_before_after(0.8)
+    cluster_data_before_after(0.9)
