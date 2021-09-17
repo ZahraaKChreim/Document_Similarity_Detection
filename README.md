@@ -14,10 +14,10 @@ REDUCE++ is a validated system, able to correctly detect the similarity between 
 This way, we improved the search performance, especially by reducing the problem of duplication.
 
 ## Installation
-1. Clone the repo
+1. Clone the repo <br />
 git clone https://github.com/ZahraaKChreim/Document_Similarity_Detection
 2. Create a new python environement
-3. Install required libraries
+3. Install required libraries <br />
 pip install -r requirements.txt
 4. Install additional requirements
 - conda install -c conda-forge selenium
