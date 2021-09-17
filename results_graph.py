@@ -62,5 +62,26 @@ def pages_reduction():
     # function to show the plot
     plt.show()
 
+def external_clustering():
+    
+    # ys of bars
+    y = [1, 1, 1, 1, 1, 1, 1, 1]
+    
+    # labels for bars
+    x = ["ARI", "RI", "AMIS", "NMIS", "FMS", "HM", "CM", "VM"]
+
+    plt.plot(x, y)
+    
+
+    # naming the x-axis
+    plt.xlabel('Metric')
+    # naming the y-axis
+    plt.ylabel('Value')
+    # plot title
+    plt.title('External Cluster Validation Metrics')
+
+    # function to show the plot
+    plt.show()
+
 if __name__ ==  '__main__':
-    pages_reduction()
+    external_clustering()
